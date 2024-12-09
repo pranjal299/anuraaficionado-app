@@ -1,0 +1,998 @@
+[
+    {
+        "table_name": "BillsOfMaterials",
+        "table_description": "The BillsOfMaterials table contains detailed information about the components, byproducts, and end products associated with a Bill of Materials (BOM). It includes data such as the product type, quantity, unit of measure, status, BOM name, and product name. This table is used to track and manage the various products and their roles within the BOM structure."
+    },
+    {
+        "table_name": "CustomerDemand",
+        "table_description": "The CustomerDemand table contains information about the demand for products from customers. It includes details such as the quantity of products requested, the status of the demand record, the unit price the customer will pay, the unit of measure for the unit price, any penalty costs associated with the demand, and the transportation mode required for servicing the demand. Additionally, the table specifies the customer's name, the product name requested, and the period in which the demand occurs. This information helps in optimizing the supply chain and determining the most cost-effective way to fulfill customer demands."
+    },
+    {
+        "table_name": "CustomerFulfillmentPolicies",
+        "table_description": "The CustomerFulfillmentPolicies table contains information on the optimization, simulation, and unit cost policies that dictate how orders are fulfilled for specific Customer, Product, and Source combinations. It includes details such as the optimization policy, policy values, unit cost, lot size requirements, maximum sourcing range, and simulation policy for each policy record."
+    },
+    {
+        "table_name": "CustomerFulfillmentPoliciesMultiTimePeriod",
+        "table_description": "The CustomerFulfillmentPoliciesMultiTimePeriod table contains information regarding the specific policies that dictate how order fulfillments for customers, products, and sources must be handled over multiple time periods. This table includes details such as the status of the policy, the optimization logic to be followed, unit costs, maximum sourcing range, and the periods in which the policy changes apply."
+    },
+    {
+        "table_name": "CustomerOrders",
+        "table_description": "The CustomerOrders table contains information about individual orders placed by customers. It includes details such as the customer name, product name, quantity, unit price, source, order date, due date, status, and any specific requirements or restrictions related to sourcing, backorders, and partial fills. Each order is identified by a unique OrderID, and each line item within an order is given a unique LineItemID."
+    },
+    {
+        "table_name": "CustomerRiskConfigurations",
+        "table_description": "The CustomerRiskConfigurations table contains detailed configurations and settings related to calculating the Customer Risk Score. This table may include information such as weights applied to different risk factors (such as Geographic Risk, User Defined Risk, Concentration Risk, and Source Count Risk), as well as the specific Risk Bands used to evaluate each type of risk. Additionally, the table may specify the Risk Profile for which these configurations are saved, allowing for different risk assessments to be conducted based on the selected profile."
+    },
+    {
+        "table_name": "Customers",
+        "table_description": "The Customers table contains information about individual customers, including their single source requirements, backorder preferences, queue priorities, risk scores, status in the model, address details, and geographic coordinates. This table also includes fields for customer name, city, region/state, postal code, and country."
+    },
+    {
+        "table_name": "CustomersMultiTimePeriod",
+        "table_description": "The CustomersMultiTimePeriod table is used to track and manage changes to customer records over multiple time periods. It includes fields such as Status, CustomerStatus, and SingleSource, which determine the inclusion of customers in the model, enforcement of demand records, and sourcing constraints. It also includes fields for PeriodName and CustomerName, allowing for changes to be applied to specific periods and customers. This table allows for flexibility in managing customer data and demand requirements over time in the model."
+    },
+    {
+        "table_name": "CustomerTransitConstraints",
+        "table_description": "The CustomerTransitConstraints table contains constraints related to customers, products, sources, modes, periods, transit bands, and band percentages for determining service fulfillment requirements based on the distance or time from a facility to the customer. It includes information about group behaviors, unit of measures, and percentage of service that must occur within a specified band for a particular customer/product combination."
+    },
+    {
+        "table_name": "Facilities",
+        "table_description": "The Facilities table provides information on the various facilities within the network, including details such as initial state (existing or potential), fixed startup and closing costs, storage and throughput capacities, source order requirements, backorder policies, fill order preferences, queue priorities, risk scores, address details, and operating costs. This table allows for the management and optimization of facilities within the model to ensure efficient and effective operations within the supply chain network."
+    },
+    {
+        "table_name": "FacilitiesMultiTimePeriod",
+        "table_description": "The FacilitiesMultiTimePeriod table contains information about specific facilities over multiple time periods. This includes details such as the status of the facility, startup and operating costs, storage and throughput capacities, and any changes or overrides that apply to the facility for different periods. This table allows for the modeling and analysis of how facilities may be opened, closed, or operated in an optimal way over a range of time periods."
+    },
+    {
+        "table_name": "FacilityCountConstraints",
+        "table_description": "The FacilityCountConstraints table contains information about constraints related to counting open facilities during specific periods. It includes details such as the facility names, periods, constraint types, constraint values, and counting rules for evaluating the number of open facilities. The table also specifies the status of each constraint and whether it should be included or excluded during the model run."
+    },
+    {
+        "table_name": "FacilityRiskConfigurations",
+        "table_description": "The FacilityRiskConfigurations table contains detailed configurations for evaluating different types of risks (geographic, user-defined, utilization, concentration, and source count) when calculating the Facility Risk Score. This table includes the weights applied to each type of risk, as well as any specific risk bands used for evaluating concentration and source count risks. The configurations saved in this table are specific to the Risk Profile selected for analysis."
+    },
+    {
+        "table_name": "FlowConstraints",
+        "table_description": "The FlowConstraints table specifies constraints on the flow of goods or materials in a supply chain model. Constraints can be defined based on the origin, destination, product, transportation mode, and period of the flow, as well as the type of constraint (Min, Max, Fixed, etc.) and the numeric value to be evaluated against. Constraints can be set to be included or excluded during the model run."
+    },
+    {
+        "table_name": "FlowCountConstraints",
+        "table_description": "The FlowCountConstraints table contains constraints that determine the number of flows based on specified criteria such as origin, destination, product, transportation mode, and period. Constraints can be set based on the count of unique elements within these criteria, and can include minimum, maximum, fixed, or conditional values. The table also includes information on the behavior of groups within each criteria and the status of whether the constraint should be included or excluded during the model run."
+    },
+    {
+        "table_name": "GeographicRiskConfigurations",
+        "table_description": "The  GeographicRiskConfigurations table contains information on the weightings and risk bands assigned to various geographic risks such as Bio Lab Distance, Economic, Natural Disaster, Nuclear Distance, Political, Epidemic, and Labor risks. These weightings and risk bands are used to calculate the Geographic Risk Score for each Customer, Facility, and Supplier. The table also specifies the Risk Profile that the risk configuration is saved for, allowing for different risk profiles to be configured and applied to different sets of source data."
+    },
+    {
+        "table_name": "GreenfieldServiceBands",
+        "table_description": "The GreenfieldServiceBands table provides information on various service bands within a model. It includes details such as the distance value for the service band, the unit of measure for the distance, the status of the constraint (whether it is excluded or not), and the name and percentage of demand quantity that must be fulfilled within the service band distance. This table is used to manage and analyze service band constraints in a model."
+    },
+    {
+        "table_name": "GreenfieldSettings",
+        "table_description": "The GreenfieldSettings table outlines the parameters and options for optimizing the location and operation of new facilities in a supply chain network. It includes settings for minimizing total facilities, excluding suppliers, restricting facility selection to candidate locations, setting fixed costs for greenfield facilities, determining customer fulfillment and procurement costs, refining facility locations, clustering customers, setting limits on new facility openings, excluding certain facilities, specifying maximum sourcing distances, and establishing minimum and maximum throughput capacities for greenfield facilities."
+    },
+    {
+        "table_name": "Groups",
+        "table_description": "The Groups table provides information about different groups of members that can be included or excluded from a model run. Each group is assigned a GroupName and GroupType, and contains individual Members that have an associated record in a master table. The status of each Member in a Group determines if they are included or excluded during the model run. The type of behavior for each Group can be either Aggregate or Enumerate, which affects how the members are evaluated in the model."
+    },
+    {
+        "table_name": "InventoryConstraints",
+        "table_description": "The InventoryConstraints table contains information on constraints related to inventory levels for different facilities, products, and periods. It includes details such as the type of constraint, the numeric value to be evaluated against, the unit of measure, and the type of inventory considered. The status column indicates whether the constraint is included or excluded in the model run, while group behaviors specify how constraints are applied to groups of facilities, products, or periods."
+    },
+    {
+        "table_name": "InventoryCountConstraints",
+        "table_description": "The InventoryCountConstraints table stores information about constraints that dictate whether certain inventory records should be included or excluded during a model run. This information includes details such as the specific facility, product, and period being counted, the type of constraint imposed, the constraint value, and the counting rule being applied. The table also includes fields for specifying group behavior for facilities, products, and periods, as well as the status of the constraint (whether it is included or excluded)."
+    },
+    {
+        "table_name": "InventoryPolicies",
+        "table_description": "The InventoryPolicies table contains information on the inventory management policies and parameters for specific Facility/Product combinations. It includes details such as unit of measure for reorder points, order quantities, review periods, unit values, carrying costs, surplus levels, DOS calculations, forecasting types, inventory turnover times, simulation policies, stocking sites, and status of the policy. This table helps manage and track inventory levels and policies for efficient supply chain operations."
+    },
+    {
+        "table_name": "InventoryPoliciesMultiTimePeriod",
+        "table_description": "The InventoryPoliciesMultiTimePeriod table is used to store policies related to inventory management that apply to specific facilities and products over multiple time periods. This table includes information such as scheduled receipts, unit values, carrying costs, storage costs, and other factors that impact inventory management decisions. Changes made in this table will override the records of the base table for the specified periods only."
+    },
+    {
+        "table_name": "Lookups",
+        "table_description": "The Lookups table in the ANURA database stores information about different lookup operations that can be performed to retrieve values from a specified source table based on mappings provided in the source and destination columns. This includes details such as the source table, destination table, whether it is a range lookup, default value in case of lookup failure, lookup name, source value column, and mappings for joining source and destination columns. This table is used to facilitate data retrieval and mapping operations within the database."
+    },
+    {
+        "table_name": "ModelRunOptions",
+        "table_description": "The ModelRunOptions table contains options for users to customize and adjust settings for model runs in a software program. The table includes fields for status, value, technology, description, data type, UI display name, UI display category, UI display order, and additional options for optimization or simulation models. Users can adjust these options to tailor the model runs to their specific needs and preferences."
+    },
+    {
+        "table_name": "ModelSettings",
+        "table_description": "The ModelSettings table contains various configuration settings and parameters that define how the simulation model operates, including factors such as circuity factor, average speed, unit of measure symbols for different types of measurements, decimal precision for various fields, risk rating, model horizon dates, warm-up period dates, inventory carrying cost percentage, and more. These settings help customize the simulation model to accurately reflect the real-world scenario being modeled."
+    },
+    {
+        "table_name": "NetworkRiskConfigurations",
+        "table_description": "The NetworkRiskConfigurations table contains information about the weightings and risk bands associated with different risk factors that are used to calculate the Network Risk Score. This includes details such as the weights applied to different risks, the risk bands used to evaluate those risks, and the name of the Risk Profile that the configuration is saved for. This table is used to configure and customize the calculation of the overall network risk for a given scenario or organization."
+    },
+    {
+        "table_name": "OptimizationBillsOfMaterialSummary",
+        "table_description": "The table OptimizationBillsOfMaterialSummary contains summarized information related to Bills of Material (BOM) optimization. It includes details such as the quantity, volume, and weight of products consumed or produced through the BOM, along with the corresponding unit of measures. Additionally, the table provides information on the location of the facility where the BOM was consumed, the name of the scenario and time period the results are saved for, the name of the BOM, facility, and product involved, as well as the type of product (Component, Byproduct, or End Product). This table is likely used to track and analyze the efficiency and effectiveness of BOM usage for optimization purposes."
+    },
+    {
+        "table_name": "OptimizationConstraintSummary",
+        "table_description": "The OptimizationConstraintSummary table provides a summary of constraints used in an optimization model. It includes details such as the names of different elements (Period, Facility, Origin, Destination, Product, Mode, Process, Work Center, BOM), the type and value of constraints, the resulting activity, slack percentage, constraint violation, suggested constraint value, scenario name, and the assigned name of the constraint by the optimization solver. This table helps users track and analyze how constraints are affecting the optimization results."
+    },
+    {
+        "table_name": "OptimizationCostToServeParentInformationReport",
+        "table_description": "The table contains information on the cost to serve for different parent nodes in an optimization scenario. It includes details on the quantity, ratio, and names of the parent and current nodes involved, as well as the scenario the results are saved for."
+    },
+    {
+        "table_name": "OptimizationCostToServeSummary",
+        "table_description": "The OptimizationCostToServeSummary table provides a summarized view of the cost to serve information for different products and customer locations or facilities. It includes data such as total cost, total revenue, quantity served, cost per unit, revenue per unit, and various breakdowns of costs associated with serving a specific product to a specific site. Additionally, it includes information on the scenario, time period, site type, product name, and geographical location of the customer. The table aims to optimize the cost to serve operations by providing detailed insights into the various cost components and efficiencies related to product distribution."
+    },
+    {
+        "table_name": "OptimizationCustomerRiskMetrics",
+        "table_description": "The OptimizationCustomerRiskMetrics table provides a detailed overview of the risk metrics associated with each Customer in the model. This includes the Customer's risk score, concentration risk, source count risk, geographic risk, and user-defined risk. The table also includes the latitude and longitude of each Customer, as well as the scenario name and risk rating name for which the risk metrics are reported."
+    },
+    {
+        "table_name": "OptimizationCustomerSummary",
+        "table_description": "The OptimizationCustomerSummary table provides a summary of key information related to customer demand, revenue, risk scores, and geographic location for each customer included in the optimization scenario. This table includes data such as total demand quantity, volume, and weight, as well as served and unserved demand quantities. It also includes information on total revenue generated by each customer, their risk score, and their geographic location specified by latitude and longitude coordinates. Additionally, the table includes details such as the scenario name and period name for which the results are reported."
+    },
+    {
+        "table_name": "OptimizationDemandSummary",
+        "table_description": "The OptimizationDemandSummary table provides a summary of key metrics related to demand, including quantities, volumes, weights, revenue, costs, and risk factors for each Customer / Product / Period combination. It includes information on original demand, served demand, unserved demand, and associated risks, as well as geographic and user-defined risk factors. This table helps track and analyze demand fulfillment, revenue generation, cost implications, and risk assessment for different scenarios and time periods."
+    },
+    {
+        "table_name": "OptimizationFacilityCostToServeSummary",
+        "table_description": "The table OptimizationFacilityCostToServeSummary provides a summary of cost-to-serve information for different facilities and products in a supply chain optimization scenario. This includes details on costs such as transportation, production, handling, and facility operating costs, as well as location coordinates, scenario name, time period, facility name, product name, and activity type. This table is used to analyze and optimize cost-to-serve metrics in the supply chain network."
+    },
+    {
+        "table_name": "OptimizationFacilityRiskMetrics",
+        "table_description": "The OptimizationFacilityRiskMetrics table contains detailed information about the risk scores associated with individual facilities. It includes the Facility Risk Score, Concentration Risk, Source Count Risk, Utilization Risk, Geographic Risk, and User Defined Risk for each facility. These risk metrics are used to calculate the overall Risk Score in the Risk Metrics Summary table and provide insights into the potential risks associated with each facility in the model."
+    },
+    {
+        "table_name": "OptimizationFacilitySummary",
+        "table_description": "The OptimizationFacilitySummary table provides a comprehensive summary of key data and metrics related to facilities within a specific scenario and time period. It includes information such as initial and optimized states and statuses of facilities, total costs associated with each facility, quantities and volumes of flows, inventory and production, as well as capacity and utilization metrics. Additionally, the table includes risk scores, geographic location coordinates, and relevant scenario and period names for easy reference and analysis."
+    },
+    {
+        "table_name": "OptimizationFlowSummary",
+        "table_description": "The OptimizationFlowSummary table provides a comprehensive overview of various costs, distances, risks, and other relevant metrics associated with product flows within a supply chain network. It includes information such as flow type, quantity, volume, weight, sourcing and transportation costs, as well as handling costs and total costs. Additionally, it captures details related to transport distance, time, and risks, along with geographic coordinates of origin and destination locations. This table is essential for analyzing and optimizing supply chain processes to enhance efficiency and reduce operational risks."
+    },
+    {
+        "table_name": "OptimizationGeographicRiskMetrics",
+        "table_description": "The table OptimizationGeographicRiskMetrics contains data related to the risk scores associated with different geographic locations, focusing on factors such as proximity to bio labs, nuclear power plants, economic characteristics, natural disasters, political stability, epidemics, and labor markets. The table includes information on site type, risk scores, specific risks (such as bio lab distance risk and natural disaster risk), geographic coordinates, scenario name, risk rating name, and site name. It is used to analyze and optimize the risk factors associated with various geographical sites."
+    },
+    {
+        "table_name": "OptimizationGreenfieldCustomerRiskMetrics",
+        "table_description": "The Optimization Greenfield Customer Risk Metrics table provides a summary of the risk associated with each customer in a specific scenario. It includes the Customer Risk Score, Concentration Risk, Geographic Risk, and User Defined Risk for each customer, as well as their geographic coordinates, scenario name, risk rating name, and customer name. This table allows for a detailed analysis of the various risk factors that contribute to the overall risk profile of each customer in the optimization scenario."
+    },
+    {
+        "table_name": "OptimizationGreenfieldCustomerSummary",
+        "table_description": "The OptimizationGreenfieldCustomerSummary table provides a summary of various attributes and data related to customers in an optimization model. This includes information such as the cluster ID assigned to the customer, their total demand, flow cost, location details (city, postal code, region, country), risk scores, geographic information (latitude, longitude), the name of the scenario the results are saved for, and the customer's name. This table helps in analyzing and understanding the impact of different factors on customer operations and risk assessment in the optimization model."
+    },
+    {
+        "table_name": "OptimizationGreenfieldFacilityRiskMetrics",
+        "table_description": "The Optimization Greenfield Facility Risk Metrics table provides detailed information on the risk score associated with each Facility in a Greenfield project. This information is based on a weighted average of Concentration Risk, Utilization Risk, Geographic Risk, and User Defined Risk. The table also includes the Facility's latitude and longitude, as well as the name of the scenario and the Risk Rating for which the risk metrics are reported."
+    },
+    {
+        "table_name": "OptimizationGreenfieldFacilitySummary",
+        "table_description": "The OptimizationGreenfieldFacilitySummary table provides a summary of key metrics and information for Greenfield Facilities in an optimization model. This includes details such as the type of facility, fixed costs, flow costs, demand served, capacity, utilization, customer information, distance metrics, location data, risk scores, and scenario name. This table allows for a quick overview of the performance and characteristics of Greenfield Facilities in the optimization model."
+    },
+    {
+        "table_name": "OptimizationGreenfieldFlowSummary",
+        "table_description": "The OptimizationGreenfieldFlowSummary table provides a summary of optimized flow records, including information such as the type of flow, quantity, cost, distance, service band details (if applicable), transportation time, risk metrics, geographical coordinates of origin and destination, scenario name, and names of the origin and destination locations. This table is used to analyze and compare optimized transportation flows within a supply chain network."
+    },
+    {
+        "table_name": "OptimizationGreenfieldGeographicRiskMetrics",
+        "table_description": "The table OptimizationGreenfieldGeographicRiskMetrics contains Geographic Risk Metrics for greenfield sites that are being optimized. The metrics include information on the type of site (Customer, Facility, or Supplier), the risk score associated with the geographic location of the site, and specific risks such as Bio Lab Distance, Economic, Natural Disaster, Nuclear Distance, Political, Epidemic, and Labor Risks. The table also includes the latitude and longitude of the site, the scenario name, the Risk Rating, and the name of the location being assessed."
+    },
+    {
+        "table_name": "OptimizationGreenfieldNetworkRiskMetrics",
+        "table_description": "The OptimizationGreenfieldNetworkRiskMetrics table provides risk metrics associated with network activities in a greenfield scenario. This includes Network Risk Score, Transport Time Risk, Time To Import Risk, and Time To Export Risk, which are calculated based on weighted averages of various factors. Additionally, the table includes Scenario Name and Risk Rating Name for reference."
+    },
+    {
+        "table_name": "OptimizationGreenfieldNetworkSummary",
+        "table_description": "The OptimizationGreenfieldNetworkSummary table contains a summary of results related to the optimization of greenfield facilities within a network. It includes information such as the version of the solver used, runtime, number of greenfield, existing, and candidate facilities, total costs, demand served, average distances, risk ratings, risk scores, and the name of the scenario being analyzed."
+    },
+    {
+        "table_name": "OptimizationGreenfieldRiskMetricsSummary",
+        "table_description": "The Optimization Greenfield Risk Metrics Summary table provides a summary of the risk scores associated with Customers, Facilities, Suppliers, and Network activities in a scenario. It outlines the Risk Score, Customer Risk, Facility Risk, Supplier Risk, and Network Risk for each scenario run, along with the DART Version used, Scenario Name, and Risk Rating Name. This table allows for a comprehensive overview of the risk factors involved in the scenario and helps in better understanding and managing potential risks."
+    },
+    {
+        "table_name": "OptimizationGreenfieldServiceBandSummary",
+        "table_description": "The OptimizationGreenfieldServiceBandSummary table provides a summary of the optimization results for Greenfield Service Bands. It includes information such as the unit of measure for distance, the percentage of demand that needs to be serviced within the distance band, the actual percentage of demand serviced, the number of customers served within the distance band, the scenario name, the name of the Greenfield Service Band, and the distance band for each Service Band. This table helps to track and analyze the performance of the optimization model for Greenfield Service Bands in terms of meeting service level requirements."
+    },
+    {
+        "table_name": "OptimizationGreenfieldSupplierRiskMetrics",
+        "table_description": "The OptimizationGreenfieldSupplierRiskMetrics table provides a detailed breakdown of the risk metrics associated with Suppliers in a greenfield scenario. It includes the Supplier's Risk Score, Concentration Risk, Utilization Risk, Geographic Risk, and User Defined Risk, as well as their Latitude and Longitude. This table allows for a comprehensive analysis of the potential risks posed by Suppliers in a greenfield project based on various factors."
+    },
+    {
+        "table_name": "OptimizationGreenfieldSupplierSummary",
+        "table_description": "The OptimizationGreenfieldSupplierSummary table provides a summary of key information related to suppliers in a greenfield optimization scenario. This includes details such as total outbound flow cost, supplied quantity, supplier capacity, supplier utilization, facilities served, average and furthest facility distances, distance unit of measure, city, postal code, region, country, supplier risk score, concentration risk, utilization risk, geographic risk, user-defined risk, latitude, longitude, scenario name, and supplier name. This table serves as a comprehensive overview of supplier performance and risk factors in the context of greenfield optimization."
+    },
+    {
+        "table_name": "OptimizationInventorySummary",
+        "table_description": "The OptimizationInventorySummary table provides a summary of inventory optimization results for each scenario, period, facility, and product. It includes information such as prebuild inventory quantities, volumes, and weights, estimated inventory quantities and costs, as well as latitude and longitude coordinates of the facility. The table also includes total inventory costs, including holding costs and storage costs, for each product and facility combination during the specified period."
+    },
+    {
+        "table_name": "OptimizationNetworkRiskMetrics",
+        "table_description": "The OptimizationNetworkRiskMetrics table provides detailed information on the risk associated with network activities in a specific scenario. It includes NetworkRiskScore, ProductStockingPointCountRisk, ProductMakeAndSupplyCountRisk, TransportTimeRisk, TimeToImportRisk, and TimeToExportRisk, all calculated as weighted averages based on various risk factors. The table also includes ScenarioName and RiskRatingName for reference."
+    },
+    {
+        "table_name": "OptimizationNetworkSummary",
+        "table_description": "The OptimizationNetworkSummary table provides a summary of the optimization results related to the network aspects of the scenario run. This includes information on total transportation costs, shipment costs, in-transit holding costs, duty costs, sourcing costs, fixed operating costs, fixed startup costs, fixed closing costs, inbound and outbound handling costs, stocking and destocking costs, process costs, and user-defined costs. Additionally, the table may include details on primary risk ratings and risk scores associated with the scenario."
+    },
+    {
+        "table_name": "OptimizationProcessSummary",
+        "table_description": "The OptimizationProcessSummary table provides a summary of key information related to the optimization process, including details on the type of process, work center name, processed quantity, volume, weight, time, cost, location coordinates, scenario name, facility name, product name, process name, step names, and period details. This table is likely used to analyze and optimize various aspects of production processes within a facility or organization."
+    },
+    {
+        "table_name": "OptimizationProductionSummary",
+        "table_description": "The OptimizationProductionSummary table provides a summary of production optimization results for various Facility-Product combinations. It includes information such as production quantity, volume, weight, cost, time, location coordinates, scenario name, period details, facility name, product name, bill of material name, and process name. It is a comprehensive overview of the production outcomes in a structured format for analysis and decision-making purposes."
+    },
+    {
+        "table_name": "OptimizationProductRiskMetrics",
+        "table_description": "The table OptimizationProductRiskMetrics provides risk metrics related to different aspects of a product, such as the number of stocking points, make and supply locations, and overall risk rating. It also includes the scenario name, period name, and the specific product name for which the risk metrics are being reported. This table allows for the analysis and comparison of different products based on their associated risks."
+    },
+    {
+        "table_name": "OptimizationRiskMetricsSummary",
+        "table_description": "The Optimization Risk Metrics Summary table provides a consolidated overview of the risk scores associated with different components of the scenario, such as Customer Risk, Facility Risk, Supplier Risk, and Network Risk. It shows the weighted average of these risks, along with the Risk Rating that these metrics are reported for. This table serves as a high-level summary of the overall risk assessment for the scenario."
+    },
+    {
+        "table_name": "OptimizationSequentialObjectiveSummary",
+        "table_description": "The OptimizationSequentialObjectiveSummary table provides a summary of the results of sequential optimization runs. It includes information such as the level of optimization, the type of constraint used, the value of the constraint, the calculated objective value, the scenario name, the type of objective being reported, and the user-defined cost or variable for which the objective is being defined. This table allows users to track the progression of optimization and analyze the performance of the objectives at each level."
+    },
+    {
+        "table_name": "OptimizationShipmentSummary",
+        "table_description": "The OptimizationShipmentSummary table contains data on the shipments that were optimized for efficiency and cost effectiveness. It includes information such as the number of shipments, shipment cost, shipment size, origin and destination locations, scenario name, time period, product group, and transportation mode used for each shipment. This table provides a summary of the optimized shipment data for analysis and decision-making purposes."
+    },
+    {
+        "table_name": "OptimizationSupplierRiskMetrics",
+        "table_description": "The OptimizationSupplierRiskMetrics table provides detailed information on the risk scores associated with each Supplier in the model. This includes the Supplier's Concentration Risk, Utilization Risk, Geographic Risk, and User Defined Risk, all of which are factored into the overall Supplier Risk Score. The table also includes the latitude and longitude of each Supplier, as well as the Scenario Name and Risk Rating Name for which the risk metrics are reported."
+    },
+    {
+        "table_name": "OptimizationSupplierSummary",
+        "table_description": "The OptimizationSupplierSummary table provides a summary of key metrics and information related to suppliers, including the total supplied quantity, volume, and weight, as well as the supplier's capacity, utilization, and risk score. It also includes data on concentration risk, utilization risk, geographic risk, and user-defined risk, along with the supplier's geographic location coordinates, scenario name, period name, and the supplier's name."
+    },
+    {
+        "table_name": "OptimizationSupplySummary",
+        "table_description": "The Optimization Supply Summary table provides a summary of the supply data for different suppliers and products in a specific period. It includes information such as the quantity, volume, and weight of the product supplied by each supplier, as well as the capacity for each supplier/product pairing and the utilization of that capacity. Additionally, the table includes the geographical coordinates of the suppliers, the name of the scenario the results are saved for, and the period the results are reported for."
+    },
+    {
+        "table_name": "OptimizationUserDefinedCostSummary",
+        "table_description": "The OptimizationUserDefinedCostSummary table displays a summary of user-defined costs applied during an optimization model solve. It includes information such as the variable name, its value for the model solve, the amount of the variable within the specified cost band, the cost charged against that variable, the scenario name for which the results are saved, the name of the user-defined cost applied, and details on step costs if applicable. This table provides an overview of how various user-defined costs impact the optimization results."
+    },
+    {
+        "table_name": "OptimizationUserDefinedVariableSummary",
+        "table_description": "This table summarizes the user-defined variables used in different optimization scenarios, listing the variable name, its corresponding value, and the name of the scenario it pertains to."
+    },
+    {
+        "table_name": "OptimizationUtilizationRiskMetrics",
+        "table_description": "The table OptimizationUtilizationRiskMetrics contains data related to various risk metrics associated with utilization in an optimization context. This includes Throughput Utilization Risk, Storage Utilization Risk, and Work Center Utilization Risk. The table also includes information such as the scenario name, risk rating name, site name, site type (Facility or Supplier), latitude, longitude, and period name. This table is used to analyze and assess the risk level of utilization in different scenarios and locations."
+    },
+    {
+        "table_name": "OptimizationValidationErrorReport",
+        "table_description": "The table OptimizationValidationErrorReport displays information about validation errors found by the optimization engine during the optimization process. It includes details such as the validation rule, error message, severity, identified value, action taken, replaced value, count of occurrences, scenario name, table name, column name, and error type. This table helps track and manage errors identified during optimization to ensure data accuracy and integrity."
+    },
+    {
+        "table_name": "OptimizationWarehousingSummary",
+        "table_description": "The OptimizationWarehousingSummary table provides a summary of key data related to the optimization of warehousing operations at a Facility for various Products. This includes information on costs associated with inbound handling, stocking, destocking, and outbound handling, as well as quantities, volumes, and weights of Products flowing in and out of the Facility. The table also includes data on the location of the Facility, the scenario and time period the results are for, and specific details about the Facility and Product names."
+    },
+    {
+        "table_name": "OptimizationWorkCenterSummary",
+        "table_description": "The OptimizationWorkCenterSummary table provides a summary of key information related to Work Centers that have been optimized. This includes details such as the initial state and status of the Work Center, total cost, throughput metrics, utilization, risk, location coordinates, scenario name, period name, Work Center name, and Facility name. This table allows for a comprehensive overview of the optimization results for each Work Center in a given scenario and time period."
+    },
+    {
+        "table_name": "OrderFulfillmentPolicies",
+        "table_description": "The OrderFulfillmentPolicies table contains policies related to order fulfillment at different facilities. These policies include allowing partial fill orders and line items, setting the review period for order queue evaluations, defining queueing priority logic, and determining the status of each policy in the model. Each policy record is associated with a specific facility."
+    },
+    {
+        "table_name": "Periods",
+        "table_description": "The table Periods likely contains information on different defined time periods within a modeling or simulation scenario. Each period is likely labeled with a specific name (PeriodName) and is defined by a StartDate, with the period extending until the next soonest Start Date of the other defined periods. The table may be used to segment the model into smaller time buckets for optimization or simulation purposes. It may also specify requirements for equal length periods in models with cross-period flows."
+    },
+    {
+        "table_name": "Processes",
+        "table_description": "The Processes table provides a detailed description of the sequential processing steps involved in production, inbound/outbound warehousing, and inbound/outbound transportation. Each process is defined by a series of steps that include information on component consumption, byproduct production, processing rate, unit cost, lot size, and yield percentage. The table also includes data on work centers and work resources assigned to each step, as well as fixed time and fixed costs associated with using the process step."
+    },
+    {
+        "table_name": "ProcessesMultiTimePeriod",
+        "table_description": "ProcessesMultiTimePeriod is a table that allows for the modification of process-related data for specific periods. It includes fields such as Status, Process Step Status, Step Number, Work Center Name, Processing Rate, Unit Cost, Fixed Time, and Fixed Cost, among others. Changes made in this table will override the records of the base table for the specified periods only."
+    },
+    {
+        "table_name": "ProcurementPolicies",
+        "table_description": "The table ProcurementPolicies contains information on the optimization, simulation, and unit cost policies that must be followed for procurement flows for specific Facility, Product, and Source combinations. The table includes details such as the optimization policy, policy values, unit costs, lot sizes, sourcing range limits, simulation policies, and status of each policy record. Additionally, it specifies the Facility, Product, and Supplier that the policy record applies to."
+    },
+    {
+        "table_name": "ProcurementPoliciesMultiTimePeriod",
+        "table_description": "The ProcurementPoliciesMultiTimePeriod table stores policies related to the procurement of products from suppliers for facilities over multiple time periods. This table includes information such as the status of the policy, optimization rules, unit costs, maximum sourcing ranges, and specific details for each period, facility, product, and supplier involved."
+    },
+    {
+        "table_name": "ProductionConstraints",
+        "table_description": "The ProductionConstraints table contains information regarding constraints on production levels for specific Facilities, Products, Periods, Bills of Materials (BOMs), and Processes. It includes fields such as Status, FacilityName, ProductName, PeriodName, BOMName, ProcessName, ConstraintType, ConstraintValue, and ConstraintValueUOM, allowing users to set constraints on production quantities based on various criteria. The table also includes fields for specifying behaviors of groups for Facility Name, Product Name, Period Name, BOM Name, and Process Name."
+    },
+    {
+        "table_name": "ProductionCountConstraints",
+        "table_description": "The ProductionCountConstraints table contains information about constraints that dictate whether or not certain production occurrences are counted in the model. This includes details about the facilities, products, BOMs, processes, and periods being counted, as well as the type of constraint and the value it must meet. The table also specifies how to handle groups and provides options for different counting rules."
+    },
+    {
+        "table_name": "ProductionOrders",
+        "table_description": "ProductionOrders is a table that contains information about the production orders placed at a facility. It includes details such as the facility name, product name, quantity, order date, due date, status, and options for partial fill orders, partial fill line items, and backorders. The table also includes information on the backorder time limit and notes related to the orders and line items. Each order is identified by a unique OrderID, and each line item within an order is identified by a LineItemID."
+    },
+    {
+        "table_name": "ProductionPolicies",
+        "table_description": "The ProductionPolicies table contains records that define the production policies for specific Facility/Product combinations. It includes information such as the lot size, production rate, unit cost, simulation policy, status, and other relevant details that dictate the production logic for the specified combination. This table allows for the configuration of production orders, scheduling, and costs associated with production activities at a given facility for a specific product."
+    },
+    {
+        "table_name": "ProductionPoliciesMultiTimePeriod",
+        "table_description": "The ProductionPoliciesMultiTimePeriod table contains information related to the status, production rate, unit cost, and other details for production policies at specific facilities and for specific products over multiple time periods. The table allows for overrides and updates to be applied for the specified periods only, and information from this table will take precedence over data in the standard ProductionPolicies table."
+    },
+    {
+        "table_name": "Products",
+        "table_description": "The Products table contains information about various products, including their name, unit value, unit price, unit volume, unit weight, and status. It also includes details such as the unit of measure for the unit value, unit price, unit volume, and unit weight. This table is used to track and manage inventory, pricing, and other relevant details for each product."
+    },
+    {
+        "table_name": "ProductsMultiTimePeriod",
+        "table_description": "The ProductsMultiTimePeriod table contains information about products that may have different values or prices over various time periods. It includes fields such as Status, UnitValue, UnitValueUOM, UnitPrice, UnitPriceUOM, PeriodName, and ProductName. This table allows for the management of changes to product values and prices within specific periods, while still maintaining the base data for each product."
+    },
+    {
+        "table_name": "RelationshipConstraints",
+        "table_description": "The RelationshipConstraints table contains information about the constraints that prevent Entity 1 and Entity 2 from moving together during the Hopper solve in the model. It includes details such as the type of entities, their status, and whether they are excluded from the model run."
+    },
+    {
+        "table_name": "ReplenishmentPolicies",
+        "table_description": "The ReplenishmentPolicies table contains detailed information on the logic and rules governing the replenishment flows for specific combinations of Facility, Product, and Source. It includes the optimization policy, policy values, simulation policy logic, unit costs, lot sizes, sourcing ranges, surplus inventory considerations, and simulation policies for each policy record. The table also includes information on the status of each policy and any notes related to the Facility, Product, and Source involved."
+    },
+    {
+        "table_name": "ReplenishmentPoliciesMultiTimePeriod",
+        "table_description": "The ReplenishmentPoliciesMultiTimePeriod table is used to store specific policies related to replenishment, such as optimization logic, cost, sourcing range, and period-specific details for facilities, products, and sources. This table allows for the customization of policies for different time periods and overrides certain fields in the base table during those periods only."
+    },
+    {
+        "table_name": "RiskBandDefinitions",
+        "table_description": "The RiskBandDefinitions table provides a list of risk bands along with their corresponding lower bound values and risk scores. These risk bands are referenced in the Risk Configuration tables to assign specific risk scores based on the band's lower value. When the DART engine is run, the appropriate risk score will be applied to all instances where the particular risk band is called in the configuration tables."
+    },
+    {
+        "table_name": "RiskRatingConfigurations",
+        "table_description": "The RiskRatingConfigurations table includes information on the configuration settings for Risk Ratings, such as the name of the Risk Rating, the Risk Profile it is associated with, and the status that determines whether or not the Risk Rating will be considered in the model run. The table may also include details on weights, bands, and other risk components assigned to each Risk Profile."
+    },
+    {
+        "table_name": "RiskSummaryConfigurations",
+        "table_description": "The RiskSummaryConfigurations table contains configurations for calculating the overall Risk Score by determining the weightings for Customer Risk, Facility Risk, Supplier Risk, and Network Risk. These weightings are applied when calculating the overall Risk Score for a specified Risk Profile."
+    },
+    {
+        "table_name": "ScenarioItemAssignments",
+        "table_description": "ScenarioItemAssignments table is a table that stores assignments of Scenario Items to specific Scenarios. This table contains columns for the ScenarioName, which references the name of the Scenario where the items are assigned, and ItemName, which references the name of the specific Scenario Item being assigned to the Scenario."
+    },
+    {
+        "table_name": "ScenarioItems",
+        "table_description": "The ScenarioItems table contains information about individual items that can be assigned to scenarios. This includes the name of the item, any actions associated with it, its condition, status, tags, and any additional notes or descriptions. The status field determines whether the item should be included when running a scenario it is assigned to."
+    },
+    {
+        "table_name": "Scenarios",
+        "table_description": "The Scenarios table contains information about various scenarios that can be included when selecting model scenarios to run. It includes details such as the name of the scenario, its status, any associated tags, technology used, and any additional notes or descriptions. Scenarios allow users to make changes to core model data and see the corresponding outputs."
+    },
+    {
+        "table_name": "SequentialObjectives",
+        "table_description": "The SequentialObjectives table contains information about the objectives to be solved for in a sequential optimization process. Each objective is assigned a priority level, tolerance value, status (whether it will be considered for optimization), objective type (such as cost or revenue), and user-defined variables or costs. The table outlines the order in which objectives will be solved for and how much each objective can be relaxed to find a solution for the next priority level."
+    },
+    {
+        "table_name": "Shipments",
+        "table_description": "The Shipments table contains detailed information about each individual shipment, including the quantity of products being shipped, pickup and delivery times, costs, source and destination locations, as well as the status and unique identifiers for the shipment and line items. Each shipment may consist of multiple line items, each with its own specific details recorded in the table."
+    },
+    {
+        "table_name": "SimulationCustomerProductServiceSummary",
+        "table_description": "The SimulationCustomerProductServiceSummary table provides a summary of simulation results for various services related to specific customer-product combinations. It includes data on placed lines, order quantities, volumes, weights, delivery details, backorders, cancellations, and on-time performance rates for each combination. Additionally, it includes information such as customer name, product name, latitude, longitude, scenario name, and statistics type for the simulation."
+    },
+    {
+        "table_name": "SimulationCustomerProductServiceSummaryReplicationDetail",
+        "table_description": "The Simulation Customer Product Service Summary Replication Detail table provides detailed information on the results of a simulation run for a specific scenario, including data on the number of lines, quantity, volume, and weight for each customer-product combination. It also includes information on the replication number, customer name, product name, and whether the items were sourced from primary or non-primary locations. The table allows for a comprehensive analysis of the fulfillment performance for each customer and product combination in the simulation."
+    },
+    {
+        "table_name": "SimulationCustomerProductSummary",
+        "table_description": "The SimulationCustomerProductSummary table provides key metrics and statistics for different Customer/Product combinations in a simulation scenario. It includes information such as the number of placed lines, order quantity, order volume, order weight, revenue generated, lost revenue, concentration risk, source count risk, geographic risk, user-defined risk, and geographic coordinates for each Customer/Product combination. Additionally, it includes details on the scenario name, Customer name, Product name, and the type of statistic being reported."
+    },
+    {
+        "table_name": "SimulationCustomerProductSummaryReplicationDetail",
+        "table_description": "The SimulationCustomerProductSummaryReplicationDetail table provides detailed information on various metrics and risk factors associated with specific Customer / Product combinations for a given scenario and replication number in a simulation. This includes data on placed lines, order quantities, order volumes, order weight, revenue, risk scores, geographic information, and user-defined risks. The table also includes the names of the customer, product, and scenario being analyzed."
+    },
+    {
+        "table_name": "SimulationCustomerRiskMetrics",
+        "table_description": "The SimulationCustomerRiskMetrics table contains risk metrics for customers, including the CustomerRiskScore, ConcentrationRisk, SourceCountRisk, GeographicRisk, UserDefinedRisk, Latitude, Longitude, ScenarioName, RiskRatingName, CustomerName, and StatType. These metrics are used to calculate overall risk scores for customers in the simulation model."
+    },
+    {
+        "table_name": "SimulationCustomerRiskMetricsReplicationDetail",
+        "table_description": "The SimulationCustomerRiskMetricsReplicationDetail table provides detailed information on the risk metrics associated with individual customers for each replication in a simulation scenario. This includes the Customer Risk Score, Concentration Risk, Source Count Risk, Geographic Risk, User Defined Risk, latitude, and longitude of the customer. The table also includes the Scenario Name, Replication Number, Risk Rating Name, and Customer Name for reference. This table helps in analyzing and comparing the risk profiles of different customers across multiple replications in a simulation model."
+    },
+    {
+        "table_name": "SimulationCustomerServiceSummary",
+        "table_description": "The SimulationCustomerServiceSummary table provides a summary of customer service-related metrics for different customers in the simulation scenario. This includes information such as the number of orders placed, order fulfillment rates, backorders, cancellations, and delivery performance for each customer. The table also includes customer location data (latitude and longitude) as well as the scenario name and type of statistic reported."
+    },
+    {
+        "table_name": "SimulationCustomerServiceSummaryReplicationDetail",
+        "table_description": "The SimulationCustomerServiceSummaryReplicationDetail table provides a detailed summary of customer service-related metrics for each replication in a simulation. It includes information such as the number of placed orders, order fulfillment rates, backorders, cancellations, order quantities, volumes, weights, as well as the latitude and longitude of each customer. This table is intended to offer a comprehensive view of customer service performance for different scenarios and replications within a simulation."
+    },
+    {
+        "table_name": "SimulationCustomerSummary",
+        "table_description": "The SimulationCustomerSummary table provides a summary of various customer-related data and metrics from simulations conducted in the model. This includes information such as the total number of orders placed and delivered, total order quantity and volume, revenue generated and lost, customer risk score, geographic risk, and user-defined risk for each customer. Additionally, it includes the latitude and longitude of the customer, the scenario name for which the results are saved, the customer name, and the type of statistic being reported."
+    },
+    {
+        "table_name": "SimulationCustomerSummaryReplicationDetail",
+        "table_description": "The SimulationCustomerSummaryReplicationDetail table provides a detailed summary of key metrics, risks, and geographical information for individual customers within a specific scenario and replication. It includes data such as the total orders placed, delivered, undelivered, quantities, volumes, weights, revenue generated, lost revenue, risk scores, and geographic coordinates for each customer. This table allows for a comprehensive analysis of customer behavior and risk factors in a simulated environment."
+    },
+    {
+        "table_name": "SimulationEvolutionaryAlgorithmInputFactorReport",
+        "table_description": "This table likely contains data related to a simulation using an evolutionary algorithm, specifically focusing on the input factors used in the simulation. It includes information on the evolution of these input factors over the course of the simulation, as well as the specific values and names associated with each input factor."
+    },
+    {
+        "table_name": "SimulationEvolutionaryAlgorithmOutputFactorReport",
+        "table_description": "The SimulationEvolutionaryAlgorithmOutputFactorReport table displays the utility value, weighted score, scenario name, and output factor name associated with the output factors in a genetic algorithm scenario. The table provides insights into the performance and relevance of different output factors in the genetic algorithm scenarios generated during the simulation."
+    },
+    {
+        "table_name": "SimulationEvolutionaryAlgorithmSummary",
+        "table_description": "The SimulationEvolutionaryAlgorithmSummary table likely provides a summary of the results and key information from running an evolutionary algorithm simulation. This could include details such as the overall fitness score, scenario names, and generation numbers for each iteration of the simulation. It may also show trends or patterns in the evolution of the algorithm over time."
+    },
+    {
+        "table_name": "SimulationFacilityProductServiceSummary",
+        "table_description": "The SimulationFacilityProductServiceSummary table contains summarized statistics and data related to the simulation results for a specific facility, product, and service combination. It includes information such as the quoted time to fill, received orders, placed orders, fill rates, order quantities, volumes, weights, and various other metrics specific to the facility, product, and service being analyzed. The table also includes details about the scenario name, facility name, product name, and the type of statistic being reported."
+    },
+    {
+        "table_name": "SimulationFacilityProductServiceSummaryReplicationDetail",
+        "table_description": "The SimulationFacilityProductServiceSummaryReplicationDetail table contains detailed data on the results of a simulation for a specific facility, product, and service combination. It includes information such as the number of received lines, order quantities, volumes, weights, as well as details on fulfillment rates, sources, and backorders. The table also includes the scenario name, replication number, facility name, and product name for reference."
+    },
+    {
+        "table_name": "SimulationFacilityProductSummary",
+        "table_description": "The SimulationFacilityProductSummary table provides a summary of simulation results for each facility and product combination. It includes key metrics such as inventory holding costs, storage costs, production costs, inventory quantities, volumes, weights, as well as details on received orders and their quantities, volumes, and weights. Additionally, it includes information on the geographical location of the facility, scenario name, facility name, product name, and statistic type. This table allows for a comprehensive analysis of the performance of each facility and product within the simulation."
+    },
+    {
+        "table_name": "SimulationFacilityProductSummaryReplicationDetail",
+        "table_description": "The SimulationFacilityProductSummaryReplicationDetail table contains a detailed summary of replication-specific results for each combination of Facility and Product within a simulation scenario. It includes information such as inventory holding costs, storage costs, production costs, inbound and outbound handling costs, inventory quantities, volumes, and weights, as well as order quantities, volumes, and weights. Additionally, it includes the latitude and longitude of the facility, the scenario name, replication number, facility name, and product name for easy reference and analysis."
+    },
+    {
+        "table_name": "SimulationFacilityRiskMetrics",
+        "table_description": "The SimulationFacilityRiskMetrics table likely contains data on the risk metrics associated with various facilities in a simulation. This data would include the Facility Risk Score, Concentration Risk, Source Count Risk, Geographic Risk, User Defined Risk, Latitude, Longitude, Scenario Name, Risk Rating Name, Facility Name, and the type of statistic being reported. This table would allow for analysis and comparison of the risk levels of different facilities within the simulation scenario."
+    },
+    {
+        "table_name": "SimulationFacilityRiskMetricsReplicationDetail",
+        "table_description": "The SimulationFacilityRiskMetricsReplicationDetail table contains detailed risk metrics for each Facility in a simulation, broken down by replication number. It includes Facility name, risk score, concentration risk, source count risk, geographic risk, user defined risk, latitude, and longitude. Each row in the table relates to a specific replication of the simulation and provides a detailed breakdown of the risk factors associated with each Facility."
+    },
+    {
+        "table_name": "SimulationFacilityServiceSummary",
+        "table_description": "The SimulationFacilityServiceSummary table provides a summary of various statistics related to the services provided by different facilities during a simulation. It includes information such as the number of received orders, the number of placed orders, order quantities, order volumes, order weights, and fulfillment rates for each facility. The table also includes details on primary and non-primary sourced orders, undelivered orders, backordered orders, and cancelled orders for each facility. This data allows for a comprehensive analysis of the performance and efficiency of the services provided by each facility during the simulation."
+    },
+    {
+        "table_name": "SimulationFacilityServiceSummaryReplicationDetail",
+        "table_description": "The SimulationFacilityServiceSummaryReplicationDetail table provides a detailed summary of service performance for each Facility in a simulation scenario, broken down by replication number. It includes information on received orders, lines, order quantity, order volume, and order weight, as well as placed orders, lines, order quantity, order volume, and order weight. The table also includes data on on-time fill rates, primary and non-primary sourced orders, backordered and cancelled orders, undelivered orders, and orders fulfilled within the specified time frame."
+    },
+    {
+        "table_name": "SimulationFacilitySummary",
+        "table_description": "The SimulationFacilitySummary table provides a summary of various cost, quantity, volume, weight, and order metrics for each facility within a simulation. It also includes risk scores related to concentration, source count, geographic location, and user-defined factors for each facility. The table includes information such as facility name, scenario name, latitude, and longitude."
+    },
+    {
+        "table_name": "SimulationFacilitySummaryReplicationDetail",
+        "table_description": "This table provides a summary of key metrics for each facility within a simulation, broken down by replication number. The metrics include costs, quantities, volumes, weights, order details, and risk scores associated with each facility during the simulation. The table also includes facility-specific information such as name, latitude, and longitude."
+    },
+    {
+        "table_name": "SimulationFlowSummary",
+        "table_description": "The SimulationFlowSummary table provides a summary of various aspects related to the shipment and transportation of products in a simulation scenario. It includes information such as the quantity, volume, and weight of products shipped, as well as associated costs and transportation details. Additionally, it provides data on in-transit holding costs, duty costs, transport distance and time, as well as potential risks related to transportation times and location coordinates. The table also includes details on the scenario name, origin and destination names, transportation mode, product name, and statistical types such as minimum, mean, maximum, and half-width."
+    },
+    {
+        "table_name": "SimulationFlowSummaryReplicationDetail",
+        "table_description": "The SimulationFlowSummaryReplicationDetail table contains detailed information about the replication of a simulation flow summary. It includes data such as total quantity, volume, weight shipped, shipment costs, in-transit holding costs, duty costs, transport distance and time, risks during transport, origin and destination coordinates, scenario name, replication number, origin and destination names, mode of transportation, and product details. This table provides a comprehensive overview of the flow of goods in a simulation scenario."
+    },
+    {
+        "table_name": "SimulationGeographicRiskMetrics",
+        "table_description": "The SimulationGeographicRiskMetrics table contains data on geographic risk metrics for various sites related to simulations run for multiple replications. The table includes information such as the type of site (Customer, Facility, or Supplier), risk scores, and specific risk factors such as BioLab Distance Risk, Economic Risk, Natural Disaster Risk, Nuclear Distance Risk, Political Risk, Epidemic Risk, and Labor Risk. Additionally, the table includes location coordinates (latitude and longitude), scenario name, risk rating name, site name, and the type of statistic being reported."
+    },
+    {
+        "table_name": "SimulationGeographicRiskMetricsReplicationDetail",
+        "table_description": "This table provides detailed replication results for geographic risk metrics associated with different types of sites (customer, facility, or supplier). The metrics include Bio Lab Distance, Economic, Natural Disaster, Nuclear Distance, Political, Epidemic, and Labor Risks, as well as the geographical coordinates of the site. Each replication is saved under a specific scenario name and includes a risk rating for the site."
+    },
+    {
+        "table_name": "SimulationInventoryOnHandReport",
+        "table_description": "The table SimulationInventoryOnHandReport likely contains a report or record of inventory on hand for various products at different facilities, in a specific scenario and replication. It includes details such as the facility name, product name, quantity, volume, and weight of the inventory on hand, along with the corresponding units of measurement. The table may also include a timestamp for when the inventory information was recorded."
+    },
+    {
+        "table_name": "SimulationLaneModeQueueDepthReport",
+        "table_description": "This table provides a report on the queue depth for each lane in a simulation, broken down by the mode of operation for each lane. The table likely includes information on the scenario, replication number, origin and destination names, product name, and the time at which the queue depth data was collected."
+    },
+    {
+        "table_name": "SimulationLaneModeQueueSummary",
+        "table_description": "The table SimulationLaneModeQueueSummary contains a summary of queue data for different simulation scenarios. It includes information such as the origin and destination names, product name, mode of transportation, statistical data on queue depth (average, minimum, maximum), queue type, total time spent in the queue, and latitude and longitude coordinates for both the origin and destination. This table provides a comprehensive overview of queue dynamics for various scenarios in the simulation."
+    },
+    {
+        "table_name": "SimulationLaneModeQueueSummaryReplicationDetail",
+        "table_description": "This table summarizes details of queueing within different simulation lanes for a specific replication number. It includes information such as the scenario name, origin and destination names, product name, mode name, average, minimum, and maximum queue depths, queue type, total time spent in the queue, latitude and longitude coordinates for the origin and destination, and the replication number."
+    },
+    {
+        "table_name": "SimulationLaneQueueDepthReport",
+        "table_description": "The table SimulationLaneQueueDepthReport likely contains data related to simulation scenarios, including the name of the scenario, replication number, origin name, destination name, product name, time, and queue depth. This table may provide information on the queue depth at different points in a simulation lane, showing how many items are waiting in the queue at specific times."
+    },
+    {
+        "table_name": "SimulationLaneQueueSummary",
+        "table_description": "The table SimulationLaneQueueSummary provides a summary of queue data for different lanes within a simulation. It includes information such as the scenario, origin, and destination names, the product being transported, statistics type, average, minimum and maximum queue depth, queue type, total time in queue cost, as well as latitude and longitude coordinates for both the origin and destination locations. This table helps in understanding the queueing behavior and performance of various lanes in the simulation."
+    },
+    {
+        "table_name": "SimulationLaneQueueSummaryReplicationDetail",
+        "table_description": "The table SimulationLaneQueueSummaryReplicationDetail provides detailed information about the queue summary for each lane in a simulation, broken down by replication number. It includes data such as the scenario name, origin and destination names, product name, average, minimum, and maximum queue depths, queue type, total time in queue cost, and the latitude and longitude coordinates of the origin and destination. This table allows for a detailed analysis of queue behavior and performance across multiple replications within a simulation."
+    },
+    {
+        "table_name": "SimulationLaneSummary",
+        "table_description": "The SimulationLaneSummary table provides a summary of data related to different simulation scenarios for transportation lanes. It includes information such as the total quantity, volume, and weight sourced and shipped, as well as the corresponding units of measurement. The table also includes costs associated with sourcing and shipment, in-transit holding costs, duty costs, and the cost dimension. Additionally, the table provides geographic coordinates (latitude and longitude) for the origin and destination of the transportation lane, as well as the names of the origin and destination locations. The table also includes the name of the specific simulation scenario, the product being transported, and the statistical type of data being presented."
+    },
+    {
+        "table_name": "SimulationLaneSummaryReplicationDetail",
+        "table_description": "The SimulationLaneSummaryReplicationDetail table likely contains detailed data about the replication of a simulation for various lanes. It includes information such as total quantity, volume, weight, and cost sourced and shipped, along with the unit of measurement for each. It also includes in-transit holding costs, duty costs, and details about the origin and destination locations including latitude and longitude coordinates. Additionally, the table likely includes data about the scenario name, replication number, origin and destination names, and the product name being simulated."
+    },
+    {
+        "table_name": "SimulationNetworkRiskMetrics",
+        "table_description": "The table SimulationNetworkRiskMetrics contains data related to various risk metrics for a network simulation. This includes metrics such as NetworkRiskScore, ProductStockingPointCountRisk, ProductMakeAndSupplyCountRisk, TransportTimeRisk, TimeToImportRisk, and TimeToExportRisk. The table also includes information on the ScenarioName, which represents the specific scenario being analyzed, and the RiskRatingName, which indicates the risk rating that the metrics are reported for. Additionally, the table may include data on StatType, which likely refers to the type of statistical measurement being used for the risk metrics."
+    },
+    {
+        "table_name": "SimulationNetworkRiskMetricsReplicationDetail",
+        "table_description": "This table likely contains detailed metrics related to network risk in a simulation environment. It includes information such as the scenario name, replication number, network risk score, risk scores related to product stocking points, product make and supply counts, transport time, time to import, and time to export. The table also includes the risk rating name for which the metrics are reported. It provides a detailed breakdown of network risk factors for each replication in a simulation scenario."
+    },
+    {
+        "table_name": "SimulationNetworkServiceSummary",
+        "table_description": "The table SimulationNetworkServiceSummary provides a summary of various key performance indicators related to customer orders, lines, order quantities, order volume, and order weight for a simulation network service. It includes data on placed customer orders, received orders, order fulfillment rates, backorders, cancellations, and other parameters to assess the efficiency and effectiveness of the network service. The table likely serves as a comprehensive overview of the operational performance and success metrics of the simulation network service."
+    },
+    {
+        "table_name": "SimulationNetworkServiceSummaryReplicationDetail",
+        "table_description": "The table contains detailed information about the replication of a simulation network service summary. It includes various metrics related to placed customer orders, order lines, order quantity, order volume, and order weight, as well as information about received orders, order lines, order quantity, order volume, and order weight. The data is broken down by different sourcing categories and includes rates for on-time in full delivery, backorders, cancellations, and more. The table also includes information about different scenarios under the column ScenarioName."
+    },
+    {
+        "table_name": "SimulationNetworkSummary",
+        "table_description": "The SimulationNetworkSummary table provides a summary of various metrics and data related to the simulation network scenario. This includes information on orders, production, costs, revenue, and risk ratings. It also contains details on the time it takes for scenarios to run and the different statistics used to analyze the data, such as minimum, mean, maximum, and half-width values."
+    },
+    {
+        "table_name": "SimulationNetworkSummaryReplicationDetail",
+        "table_description": "The SimulationNetworkSummaryReplicationDetail table provides a detailed summary of various metrics and results from a simulation scenario run, broken down by replication number. It includes information on customer orders, order quantities, order volumes, received orders, production quantities, supply chain costs, revenue, profit, inventory costs, handling costs, process costs, risk ratings, and more. This table allows for a comprehensive analysis of the simulation results at a granular level for each replication."
+    },
+    {
+        "table_name": "SimulationOrderFulfillmentQueueDepthReport",
+        "table_description": "The SimulationOrderFulfillmentQueueDepthReport table contains data related to the queue depth in a simulation of order fulfillment processes. The table likely includes columns such as ScenarioName, ReplicationNumber, FacilityName, Time, and QueueDepth to track different scenarios, replicate numbers, facilities, timestamps, and the depth of orders in the queue at different points in time during the simulation."
+    },
+    {
+        "table_name": "SimulationOrderFulfillmentQueueSummary",
+        "table_description": "The table SimulationOrderFulfillmentQueueSummary provides a summary of queue data related to order fulfillment in a simulation. It includes details such as the scenario name, facility name, statistics type, average queue depth, minimum queue depth, maximum queue depth, queue type, total time in queue cost, latitude, and longitude. This table likely helps to track and analyze the efficiency and performance of order fulfillment processes in the simulation environment."
+    },
+    {
+        "table_name": "SimulationOrderFulfillmentQueueSummaryReplicationDetail",
+        "table_description": "This table likely provides a detailed breakdown of the order fulfillment queue summary for each replication in a simulation. It includes information such as the scenario name, replication number, facility name, average queue depth, minimum queue depth, maximum queue depth, queue type, total time in queue cost, latitude, and longitude. It allows for a comprehensive analysis of queue performance across different replications in the simulation."
+    },
+    {
+        "table_name": "SimulationOrderReport",
+        "table_description": "The SimulationOrderReport table contains data related to simulated orders, including details such as Order ID, Line Item ID, Order Origin, Order Type, Source Site, Product Name, Sourcing Cost, Ordered Quantity, Ordered Volume, Ordered Weight, Order Date, Due Date, Event Date, and Event Type. It may also include information on the Scenario Name and Replication Number. This table provides a comprehensive overview of simulated orders and their associated details for reporting and analysis purposes."
+    },
+    {
+        "table_name": "SimulationProcessReport",
+        "table_description": "The SimulationProcessReport table stores detailed information about the processes that have been simulated within the system. It includes data such as the name, type, and step of the process, as well as information on the products, work centers, facilities, and resources involved. Additionally, the table tracks various timestamps related to when the process was queued, entered and exited steps, and calculates costs, quantities, yields, volumes, and weights associated with the process."
+    },
+    {
+        "table_name": "SimulationProcessSummary",
+        "table_description": "The SimulationProcessSummary table contains information related to various processes within a simulation scenario. It includes details such as the name of the scenario, the type of process, the work center and facility involved, statistics type, total process cost, processed quantities and volumes, yield, net processed quantities and volumes, as well as the corresponding units of measurement. Additionally, the table includes information on processed weight, time, latitude, and longitude. This data is used to summarize and analyze the outcomes of the simulated processes."
+    },
+    {
+        "table_name": "SimulationProcessSummaryReplicationDetail",
+        "table_description": "The SimulationProcessSummaryReplicationDetail table includes detailed information about each replication of a simulation process. It includes the scenario name, replication number, process name, process type, work center name, facility name, total process cost, total processed quantity, process yield, net total processed quantity, quantity unit of measure, total processed volume, net total processed volume, volume unit of measure, total processed weight, net total processed weight, weight unit of measure, total processed time, time unit of measure, latitude, and longitude. This table provides a comprehensive overview of the replication details for the simulation process."
+    },
+    {
+        "table_name": "SimulationProductionReport",
+        "table_description": "The SimulationProductionReport table contains data related to the production simulation, including the scenario name, replication number, production number, facility name, product name, production quantity, production volume, production weight, production cost, production order start and end times, and units of measurement for quantity, volume, weight, and cost. This table serves as a report summarizing production data for the simulation scenario."
+    },
+    {
+        "table_name": "SimulationProductRiskMetrics",
+        "table_description": "The table SimulationProductRiskMetrics contains risk metrics for various products in a simulation scenario, including Stocking Point Count Risk, Make and Supply Count Risk, the scenario name, the risk rating name, the product name, and the statistics type."
+    },
+    {
+        "table_name": "SimulationProductRiskMetricsReplicationDetail",
+        "table_description": "This table likely contains detailed information on the risk metrics associated with product simulations, broken down by replication number. It likely includes data on stocking point count risk, make and supply count risk, and the risk rating name for each simulation scenario. Each row in the table would represent a specific replication of a simulation for a product, showing the corresponding risk metrics and risk rating."
+    },
+    {
+        "table_name": "SimulationRiskMetricsSummary",
+        "table_description": "The SimulationRiskMetricsSummary table provides a summary of the risk metrics associated with different components (Customer, Facility, Supplier, Network) in a specific scenario. It includes the RiskScore, CustomerRisk, FacilityRisk, SupplierRisk, and NetworkRisk values for the scenario, as well as additional information such as the DARTVersion, ScenarioName, RiskRatingName, and StatType. This table allows for quick reference and comparison of risk levels across different scenarios and components."
+    },
+    {
+        "table_name": "SimulationRiskMetricsSummaryReplicationDetail",
+        "table_description": "The SimulationRiskMetricsSummaryReplicationDetail table provides a detailed summary of risk metrics for each replication of a scenario. It includes information such as the ScenarioName, ReplicationNumber, RiskScore (weighted average of Customer Risk, Facility Risk, Supplier Risk, and Network Risk), as well as individual risk scores for customers, facilities, suppliers, and network activities. The table also includes the DARTVersion used for the scenario run and the RiskRatingName that the risk metrics are reported for."
+    },
+    {
+        "table_name": "SimulationShipmentReport",
+        "table_description": "The SimulationShipmentReport table contains data related to simulated shipments, including details such as scenario name, replication number, shipment ID, order ID, line item ID, product name, origin and destination names, mode of shipment, quantities, volumes, weights, costs, departure and arrival times, and due dates. It is used to track and analyze simulated shipments for reporting and analysis purposes."
+    },
+    {
+        "table_name": "SimulationSupplierProductSummary",
+        "table_description": "The SimulationSupplierProductSummary table likely contains data related to the summary of simulated supplier products. It may include information such as the total supplied quantity, volume, and weight of products, along with the corresponding units of measurement. The table may also include details such as the latitude and longitude of suppliers, the name of the scenario being simulated, the name of the supplier, the name of the product, and the type of statistical data being presented."
+    },
+    {
+        "table_name": "SimulationSupplierProductSummaryReplicationDetail",
+        "table_description": "The table SimulationSupplierProductSummaryReplicationDetail contains detailed information about the replication of a simulation involving a supplier and a specific product. It includes data on the number of replications, quantities supplied, volumes supplied, weights supplied, as well as the units of measurement. Additionally, it provides the latitude and longitude coordinates of the supplier location, the name of the specific scenario being simulated, the name of the supplier, and the name of the product. This table allows for a comprehensive analysis of the supply chain dynamics in the simulated scenario."
+    },
+    {
+        "table_name": "SimulationSupplierRiskMetrics",
+        "table_description": "The SimulationSupplierRiskMetrics table provides information on various risk metrics associated with different suppliers. This includes the Supplier Risk Score, Concentration Risk, Geographic Risk, User Defined Risk, Latitude, Longitude, Scenario Name, Risk Rating Name, Supplier Name, and statistics such as Minimum, Mean, Maximum, and Half Width. This table helps in assessing the overall risk associated with each supplier in a simulation scenario."
+    },
+    {
+        "table_name": "SimulationSupplierRiskMetricsReplicationDetail",
+        "table_description": "The SimulationSupplierRiskMetricsReplicationDetail table likely contains detailed information on the risk metrics for different suppliers in a simulation scenario. This table would include specific data such as ReplicationNumber, SupplierRiskScore, ConcentrationRisk, GeographicRisk, UserDefinedRisk, Latitude, Longitude, ScenarioName, RiskRatingName, and SupplierName for each individual supplier in the simulation."
+    },
+    {
+        "table_name": "SimulationSupplierSummary",
+        "table_description": "The SimulationSupplierSummary table provides a summary of important information and metrics relating to various suppliers in a simulation or analysis. This includes details such as the total supplied quantity, volume, and weight, as well as associated risk scores and geographic data for each supplier. The table also likely includes supplier names, coordinates (latitude and longitude), and specific scenario names and statistical types for reference."
+    },
+    {
+        "table_name": "SimulationSupplierSummaryReplicationDetail",
+        "table_description": "The SimulationSupplierSummaryReplicationDetail table contains detailed information about the replication numbers, supplied quantities, volumes, weights, risk scores, and geographic details of suppliers in a simulation. It includes data on the risk associated with the geographic location of suppliers, user-defined risk values, as well as the latitude and longitude coordinates of each supplier. The table also includes information on the scenario name and the name of the suppliers."
+    },
+    {
+        "table_name": "SimulationValidationErrorReport",
+        "table_description": "The table SimulationValidationErrorReport records information about errors encountered during the simulation process. It includes columns such as ScenarioName, TableName, ColumnName, ErrorType, ErrorMessage, Severity, IdentifiedValue, Action, ValueReplaced, and Count to provide details on the validation error, the affected data, the type of error, and the steps taken to address it."
+    },
+    {
+        "table_name": "SimulationWorkCenterQueueDepthReport",
+        "table_description": "The table SimulationWorkCenterQueueDepthReport likely contains a report that shows the queue depth at different work centers in a simulation. It records information such as the scenario name, replication number, work center name, facility name, time, queue type, and queue depth. This table can be used to analyze the efficiency of work centers and identify potential bottlenecks in a simulation model."
+    },
+    {
+        "table_name": "SimulationWorkCenterQueueSummary",
+        "table_description": "The table SimulationWorkCenterQueueSummary contains a summary of queue data for different work centers in a simulation. It includes information such as the name of the scenario being simulated, the name of the work center, the facility name, the type of statistic being measured, the average, minimum, and maximum queue depths, the type of queue, the total time spent in the queue, and the latitude and longitude coordinates of the work center."
+    },
+    {
+        "table_name": "SimulationWorkCenterQueueSummaryReplicationDetail",
+        "table_description": "The table SimulationWorkCenterQueueSummaryReplicationDetail provides a detailed summary of the queue performance at work centers in a simulation scenario. It includes information such as the replication number, work center name, facility name, average queue depth, minimum queue depth, maximum queue depth, queue type, total time in queue cost, latitude, and longitude. This table helps track and analyze the queue behavior and performance at different work centers during simulations."
+    },
+    {
+        "table_name": "SimulationWorkCenterSummary",
+        "table_description": "The SimulationWorkCenterSummary table provides an overview of the costs, quantities, volumes, weights, and processing times associated with different work centers in a simulation scenario. It includes information such as the name of the work center, facility, type of statistic, total costs, operating costs, processed quantities, volumes, and weights, as well as geographical coordinates of the work center."
+    },
+    {
+        "table_name": "SimulationWorkCenterSummaryReplicationDetail",
+        "table_description": "The table SimulationWorkCenterSummaryReplicationDetail provides a detailed summary of work center operations in a simulation scenario, including replication number, work center and facility names, costs, processed quantities, volumes, and weights, as well as processing times. It also includes information on operating costs, geographical locations (latitude and longitude), and units of measurement for quantities, volumes, weights, and processing times."
+    },
+    {
+        "table_name": "StepCosts",
+        "table_description": "The StepCosts table contains information on the behavior, cost value, and unit of measure for Step Costs related to throughput levels. It also includes a status field to indicate if the record should be excluded, as well as a name for easy reference in other input tables. The table helps to define and manage costs associated with different throughput levels in a systematic manner."
+    },
+    {
+        "table_name": "SupplierCapabilities",
+        "table_description": "The SupplierCapabilities table contains information about the maximum amount of a product that can be procured from a particular supplier, the unit of measure for the maximum supply amount, the status of the policy in the model, and additional notes. It also includes the name of the supplier, as well as the specific product available at that supplier. This table provides insights into the capabilities and availability of products from different suppliers."
+    },
+    {
+        "table_name": "SupplierCapabilitiesMultiTimePeriod",
+        "table_description": "The SupplierCapabilitiesMultiTimePeriod table includes information on the maximum amount of a specific product that can be procured from a supplier during different periods. It also includes details on the unit of measure for the maximum supply amount, the status of the record in the model, the policy status, and the supplier, product, and period names. The table allows for overrides of records from the base table for specified periods only."
+    },
+    {
+        "table_name": "SupplierRiskConfigurations",
+        "table_description": "The Supplier Risk Configurations table contains the weights and configurations for various types of risks (Geographic, User Defined, Utilization, Concentration) when calculating the overall Supplier Risk Score. It also includes the Risk Profile name to specify which risk profile these configurations are saved for, allowing for customization based on specific source data and risk rating configurations. Additionally, it includes Concentration Risk Band information to evaluate the Concentration Risk at the Supplier."
+    },
+    {
+        "table_name": "Suppliers",
+        "table_description": "The Suppliers table contains detailed information about each supplier, including their address, capacity unit of measure, queue priority, geographic risk score, user-defined risk score, status, city, region, postal code, country, latitude, longitude, supplier capacity, and any additional notes. This information is used to evaluate and assess the risk and availability of suppliers within the model."
+    },
+    {
+        "table_name": "SuppliersMultiTimePeriod",
+        "table_description": "The SuppliersMultiTimePeriod table contains information about Suppliers that may vary over different time periods, such as the maximum capacity that can be procured from each Supplier and their current status in the model. It allows for changes to be made for specific periods without affecting the standard table data, with the option to exclude certain Suppliers or records for certain time periods. This table also includes the unit of measure for the maximum supply amount."
+    },
+    {
+        "table_name": "TransitMatrix",
+        "table_description": "The TransitMatrix table contains data on transportation arcs, including the distance and time of travel between specified origins and destinations for a given asset. It also indicates whether the distance and time are symmetric, and the status of the line item in the model. The table includes information on the names of origins, destinations, and optional transportation assets."
+    },
+    {
+        "table_name": "TransportationAssets",
+        "table_description": "The Transportation Assets table contains detailed information about various assets used for transportation, including costs, capacities, speeds, and fixed times required for pickup and delivery. Each asset has a unique name and can be assigned to routes based on factors such as distance, time, and stops. The table also includes information on the base location of each asset and its status within the model."
+    },
+    {
+        "table_name": "TransportationAssetSummary",
+        "table_description": "The TransportationAssetSummary table contains various metrics and measures related to transportation assets used in a solution. It includes information such as the number of assets used, total costs, delivered quantities, volumes, weights, unit costs, time costs, stop costs, distances, and times for each transportation asset type. Additionally, it provides details on the number of shipments delivered by each asset and the scenario for which the results are saved."
+    },
+    {
+        "table_name": "TransportationModes",
+        "table_description": "The TransportationModes table contains information about different transportation modes that can be used for transporting goods. It includes details such as the mode's cost, capacity, fill level requirements, and average shipment size. The table also specifies whether the mode is active or excluded from use in the model. Modes can be referenced in other tables related to transportation logistics."
+    },
+    {
+        "table_name": "TransportationModesMultiTimePeriod",
+        "table_description": "The TransportationModesMultiTimePeriod table contains information about transportation modes that may vary over different time periods. It allows for changes to be made to the standard transportation mode records for specific periods, such as setting exclusions or adjusting costs. Only the necessary fields with updates are required to be entered in this table, and any missing data will default to the standard table. This table supports overrides for transportation mode records for the specified periods only."
+    },
+    {
+        "table_name": "TransportationPolicies",
+        "table_description": "The TransportationPolicies table contains data related to the logic, values, and rules governing transportation flows for specific Origin, Destination, Product, and Mode combinations. It includes information on optimization policies, fixed cost rules, average shipment sizes, duty rates, lane capacities, load and unload processes, inventory carrying cost percentages, simulation policies, status, unit costs, fixed costs, transport distances, transport times, and other relevant factors that impact transportation decisions within a supply chain or logistics network.  Transportation policies are commonly referred to as Lanes within the supply chain modeling context."
+    },
+    {
+        "table_name": "TransportationPoliciesMultiTimePeriod",
+        "table_description": "The TransportationPoliciesMultiTimePeriod table stores transportation policies that are applied over multiple time periods. These policies dictate the logic for selecting transportation modes, unit costs, fixed costs, duty rates, inventory carrying costs, and other parameters for specific origin-destination-product-mode combinations. The table allows for overrides of base table records for specified periods and supports groupings of periods. Only fields that require updates need to be entered, with missing data defaulting to the base table values."
+    },
+    {
+        "table_name": "TransportationRates",
+        "table_description": "The TransportationRates table contains information about transportation rates, including the cost to be applied, unit of measure for cost, status of the rate (such as whether it should be included in calculations), and other details like rate name, origin and destination properties, distance bands, and distance band unit of measure. This table is used to define and manage transportation costs for different properties and destinations in the transportation model."
+    },
+    {
+        "table_name": "TransportationRouteSummary",
+        "table_description": "The TransportationRouteSummary table provides a summary of various details related to transportation routes, including information such as route start date and time, total route cost breakdown, distance, time, stops, delivered quantities, volumes, and weights, as well as details about the transportation asset used, number of shipments delivered, pickup location, scenario name, route name, and unique tour identifier. This table serves as a comprehensive overview of key metrics and characteristics of transportation routes."
+    },
+    {
+        "table_name": "TransportationSegmentSummary",
+        "table_description": "The TransportationSegmentSummary table provides a summary of various information related to transportation segments, such as the origin and destination locations, route, distance, travel time, and coordinates. It also includes details such as the unit of measure for distance and time, as well as a unique identifier for each segment. The table is likely used to track and analyze transportation data for various scenarios."
+    },
+    {
+        "table_name": "TransportationShipmentSummary",
+        "table_description": "The table TransportationShipmentSummary provides a summary of various details related to shipments, including information on the origin and destination of the shipment, the product being shipped, quantity, volume, weight, shipment status, route details, costs, stop ID, and other relevant information. It serves as a comprehensive overview of the transportation logistics for each individual shipment within a given scenario."
+    },
+    {
+        "table_name": "TransportationStopSummary",
+        "table_description": "The TransportationStopSummary table appears to contain detailed information about each stop on a transportation route. This includes data such as the site location, route name, delivered quantities of product, volumes, weights, route cost, service time, and geographic coordinates. Each stop is uniquely identified by a StopID, and the data is organized by scenario name for reference purposes."
+    },
+    {
+        "table_name": "TransportationSummary",
+        "table_description": "The TransportationSummary table provides a comprehensive overview of the transportation scenario run, including details such as the version of the solver used, start time of the scenario run, total run time, resource size, memory consumption, solve type, transportation costs, route costs, quantity, volume, and weight metrics, distance, time, number of routes, transportation assets, and shipments, as well as information on the scenario name and any shipments that were delivered or remained unrouted."
+    },
+    {
+        "table_name": "TransportationTourSummary",
+        "table_description": "The table TransportationTourSummary contains a summary of transportation information for a specific tour, identified by its TourID. It likely includes details such as the scenario name, the type of transportation used, the number of vehicles or passengers, the distance traveled, and any other pertinent information related to transportation for the tour."
+    },
+    {
+        "table_name": "UnitsOfMeasure",
+        "table_description": "The UnitsOfMeasure table contains information on the different units of measure (UOM) that can be used in various tables within the model. It includes the name of the UOM, the measurement type, the ratio to the primary unit of that type, and any notes or symbols associated with the UOM. This table ensures that data input in different units can be converted to a common unit for accurate interpretation by the solvers."
+    },
+    {
+        "table_name": "UserDefinedConstraints",
+        "table_description": "The UserDefinedConstraints table contains information about constraints that have been imposed on user-defined variables in a model. This includes details such as the type of constraint, the constraint value, the status of the constraint, and additional notes such as the name assigned to the constraint. This table allows users to specify and manage constraints for variables in their modeling process."
+    },
+    {
+        "table_name": "UserDefinedCosts",
+        "table_description": "The table UserDefinedCosts contains information on costs associated with specific user-defined variables. It includes the cost name, variable name, unit cost, and status of each cost. The unit cost is multiplied by the value of the variable, and costs with status set to Exclude will be ignored in the model solve."
+    },
+    {
+        "table_name": "UserDefinedVariables",
+        "table_description": "The UserDefinedVariables table allows users to define custom variables that capture behaviors not directly supported by other constraint tables. These user-defined variables are functions of terms made of native model variables and can be constrained in the UserDefinedConstraints table and incur costs defined in the UserDefinedCosts table. Each custom variable is assigned a name and consists of unique terms that are summed to determine the final variable value."
+    },
+    {
+        "table_name": "UtilizationRiskConfigurations",
+        "table_description": "The UtilizationRiskConfigurations table contains information on the weights and risk bands associated with different types of utilization risks (such as Throughput, Storage, and Work Center) for Facilities and Suppliers. These configurations are used to calculate the Utilization Risk Score for each Facility or Supplier based on their specific utilization risk factors. The table links these risk configurations to a specific Risk Profile, which determines how the risk calculations are run using specified source data."
+    },
+    {
+        "table_name": "WarehousingPolicies",
+        "table_description": "The WarehousingPolicies table contains policy records that define various costs and processes related to handling, stocking, and destocking products at a facility. The table includes fields such as InboundHandlingCost, StockingUnitCost, DestockingUnitCost, OutboundHandlingCost, and related fields for defining the unit costs and processes associated with these activities. The table also includes fields for specifying the behavior of product groups, the status of the policy, the facility and product names to which the policy applies, and additional details such as unit of measure and processing names."
+    },
+    {
+        "table_name": "WarehousingPoliciesMultiTimePeriod",
+        "table_description": "The WarehousingPoliciesMultiTimePeriod table is used to store and manage time-specific policy records related to handling costs for products entering and exiting a facility. This table allows for the customization of handling costs based on specific periods, product groups, and facility locations. Specific fields in this table include information on individual product handling costs, policy statuses, and the evaluation behavior of product name groups when determining step costs."
+    },
+    {
+        "table_name": "WorkCenterCountConstraints",
+        "table_description": "The table WorkCenterCountConstraints contains constraints related to the counting of open Work Centers in a facility. It includes information such as the status of the constraint, the Work Center(s) being counted, the Facility(s) where the Work Centers are located, the Period(s) in which the Work Centers are open, the type of constraint applied, the constraint value, and the counting rule used. Additionally, it specifies behavior for grouped Work Centers, Facilities, and Periods, and how the constraint should be applied in those cases."
+    },
+    {
+        "table_name": "WorkCenters",
+        "table_description": "The WorkCenters table contains information about the work centers within a specified facility, including their status, initial state, throughput capacity, fixed operating costs, startup and closing costs, queue capacities, changeover times, operating schedule, and calendar. Each work center has a unique name and is associated with a specific facility or facility group."
+    },
+    {
+        "table_name": "WorkCentersMultiTimePeriod",
+        "table_description": "The WorkCentersMultiTimePeriod table contains information specific to individual Work Centers over multiple time periods. This table allows for the customization of capacities, operating costs, startup costs, and closing costs for each Work Center based on different periods or groups of periods. Additionally, any changes made in this table will override the values in the standard Work Centers table for the specified periods only."
+    },
+    {
+        "table_name": "AdvancedQueueingDetails",
+        "table_description": "The AdvancedQueueingDetails table contains information about queueing priorities and costs for different facilities, products, and locations within the supply chain. It defines both inbound and outbound queue management rules, including priority levels, time-based costs, and target location specifications. This table allows for granular control over how queues are handled at work centers, transportation lanes, and for order fulfillment processes."
+    },
+    {
+        "table_name": "Analytics",
+        "table_description": "The Analytics table contains information about custom dashboards used for supply chain analysis and reporting. It stores dashboard definitions, descriptions, associated data, categorization tags, and tracks creation and modification dates for maintaining a history of analytical views."
+    },
+    {
+        "table_name": "BusinessCalendars",
+        "table_description": "The BusinessCalendars table contains information about operational schedules and closure dates for supply chain entities. It defines calendar configurations that can be referenced by other tables to manage facility downtimes and operational availability, allowing for precise scheduling and capacity planning."
+    },
+    {
+        "table_name": "BusinessHours",
+        "table_description": "The BusinessHours table contains detailed operating schedule information for facilities throughout the week. It defines specific opening and closing times for each day, enabling precise timing of operations and activities within the supply chain. This information is used to coordinate work schedules, deliveries, and other time-sensitive operations."
+    },
+    {
+        "table_name": "ChangeoverTimes",
+        "table_description": "The ChangeoverTimes table contains information about the time and costs associated with switching production between different products at work centers. It defines transition requirements between current and next products, including downtime duration, associated costs, and status information, helping optimize production scheduling and capacity planning."
+    },
+    {
+        "table_name": "CustomSimulationScripts",
+        "table_description": "The CustomSimulationScripts table contains configuration information for custom Python scripts that extend simulation functionality. It defines script execution parameters including timing, frequency, and policy types for transportation, production, inventory, and other supply chain processes, enabling customized behavior in the simulation model."
+    },
+    {
+        "table_name": "CustomerDemandOriginConstraints",
+        "table_description": "The CustomerDemandOriginConstraints table contains rules and limitations regarding where customer demand can be fulfilled from within the supply chain network. It specifies product quantities that can be sourced from specific origin locations during different periods, enabling control over supply chain flow and sourcing strategies."
+    },
+    {
+        "table_name": "CustomerOrderProfiles",
+        "table_description": "The CustomerOrderProfiles table contains templates for generating recurring customer orders within the simulation. It defines order patterns including quantities, frequencies, service levels, and timing parameters, allowing for the automatic generation of realistic order patterns throughout the simulation period."
+    },
+    {
+        "table_name": "FacilityDemand",
+        "table_description": "The FacilityDemand table contains information about internal facility requirements for products across different time periods. It specifies demand quantities, pricing, penalties for unfulfilled demand, and service requirements, similar to customer demand but for internal facility needs within the supply chain network."
+    },
+    {
+        "table_name": "FixedRoutes",
+        "table_description": "The FixedRoutes table contains definitions for predetermined transportation routes within the supply chain network. It specifies review periods, scheduling parameters, and route planner associations, enabling the configuration of regular, scheduled transportation patterns for consistent movement of goods."
+    },
+    {
+        "table_name": "FixedRoutesDefinitions",
+        "table_description": "The FixedRoutesDefinitions table contains the detailed sequence of stops that make up predefined transportation routes in the supply chain network. It specifies the ordered list of facilities and customers that comprise each fixed route, including stop numbers and status information, enabling the configuration of regular delivery or pickup sequences."
+    },
+    {
+        "table_name": "Histograms",
+        "table_description": "The Histograms table contains statistical distribution data used for modeling variable values in the supply chain simulation. It defines probability distributions through bin edges and heights that can be referenced by other tables to generate realistic variability in quantities, times, and other numeric values."
+    },
+    {
+        "table_name": "InputFactors",
+        "table_description": "The InputFactors table contains configuration settings for variables that can be adjusted during genetic algorithm optimization of the supply chain model. It defines the parameters, constraints, and adjustment rules for various model inputs across different tables, enabling systematic exploration of different supply chain scenarios."
+    },
+    {
+        "table_name": "LoadBalancingDemand",
+        "table_description": "The LoadBalancingDemand table contains information about regular product deliveries from sources to customers that need to be balanced across time periods. It specifies weekly demand volumes, delivery frequencies, and scheduling rules to ensure efficient distribution of regular shipments."
+    },
+    {
+        "table_name": "LoadBalancingSchedules",
+        "table_description": "The LoadBalancingSchedules table contains delivery schedule constraints and rules for balanced product distribution. It defines allowable delivery days, minimum and maximum intervals between deliveries, and day-specific delivery permissions to optimize regular delivery patterns."
+    },
+    {
+        "table_name": "Maps",
+        "table_description": "The Maps table contains visualization configurations for displaying supply chain network information. It stores map definitions, descriptions, associated data, and metadata for creating geographic representations of supply chain elements and relationships."
+    },
+    {
+        "table_name": "ModelInfo",
+        "table_description": "The ModelInfo table contains metadata about the supply chain model itself. It stores model identification, description, versioning information, tags, and tracking details about model creation and updates for documentation and management purposes."
+    },
+    {
+        "table_name": "OrderProfileProductAffinity",
+        "table_description": "The OrderProfileProductAffinity table contains information about product relationships in multi-line orders. It defines the likelihood of products being ordered together, specifying primary and secondary product relationships and selection percentages to generate realistic order combinations."
+    },
+    {
+        "table_name": "OrderProfileProductSelection",
+        "table_description": "The OrderProfileProductSelection table contains rules for how products are chosen within order profiles. It defines selection probabilities, quantities, and proportions for products in generated orders, enabling realistic simulation of customer ordering patterns."
+    },
+    {
+        "table_name": "OrderedProductSubstitution",
+        "table_description": "The OrderedProductSubstitution table contains rules for product substitutions in order fulfillment. It specifies which products can be substituted for others, including priorities and mixing rules, allowing flexible fulfillment strategies when primary products are unavailable."
+    },
+    {
+        "table_name": "Organizations",
+        "table_description": "The Organizations table contains information about different organizational entities within the supply chain network. It defines which facilities belong to which organizations and specifies whether their associated costs should be included in model calculations and objective functions, enabling multi-organization supply chain modeling."
+    },
+    {
+        "table_name": "OutputFactors",
+        "table_description": "The OutputFactors table contains configuration settings for evaluating simulation results in genetic algorithm optimization. It defines target metrics, utility curves, and weights for different output measures, allowing the system to assess and optimize model performance based on multiple weighted objectives."
+    },
+    {
+        "table_name": "ProcurementOrderProfiles",
+        "table_description": "The ProcurementOrderProfiles table contains templates for generating recurring procurement orders from facilities to suppliers. It defines order generation patterns including quantities, frequencies, service levels, and timing parameters, enabling simulation of regular purchasing patterns throughout the model timeline."
+    },
+    {
+        "table_name": "ProcurementOrders",
+        "table_description": "The ProcurementOrders table contains detailed information about specific procurement orders placed by facilities. It tracks order specifics including line items, quantities, dates, sourcing requirements, and rules for partial fills and backorders, managing the complete lifecycle of procurement transactions."
+    },
+    {
+        "table_name": "ProductUnitsOfMeasure",
+        "table_description": "The ProductUnitsOfMeasure table contains conversion rules for different units of measure specific to each product. It defines how generic quantity units relate to product-specific measurements, enabling accurate conversion between different units of measure across the supply chain model."
+    },
+    {
+        "table_name": "ProductionOrderProfiles",
+        "table_description": "The ProductionOrderProfiles table contains templates for generating recurring production orders within facilities. It specifies production patterns including quantities, frequencies, service levels, and scheduling parameters, facilitating the simulation of regular manufacturing activities."
+    },
+    {
+        "table_name": "ProductionQueueDetails",
+        "table_description": "The ProductionQueueDetails table contains rules and configurations for managing production queues at facilities. It defines review periods, queueing priority logic, associated costs, and scheduling parameters, enabling systematic management of production order sequencing."
+    },
+    {
+        "table_name": "ProductionWheelDetails",
+        "table_description": "The ProductionWheelDetails table contains specifications for cyclic production schedules. It defines the sequence, duration, and quantity requirements for different products within production wheels, enabling structured rotation of product manufacturing at facilities."
+    },
+    {
+        "table_name": "ReplenishmentOrderProfiles",
+        "table_description": "The ReplenishmentOrderProfiles table contains templates for generating recurring replenishment orders between facilities. It defines order patterns including quantities, frequencies, service levels, and timing parameters, facilitating the simulation of regular inventory replenishment activities."
+    },
+    {
+        "table_name": "ReplenishmentOrders",
+        "table_description": "The ReplenishmentOrders table contains detailed information about specific replenishment orders between facilities. It tracks order specifics including line items, quantities, dates, sourcing rules, and policies for partial fills and backorders, managing the complete lifecycle of internal replenishment transactions."
+    },
+    {
+        "table_name": "ReviewSchedules",
+        "table_description": "The ReviewSchedules table contains definitions for when system reviews occur throughout the week. It specifies the exact times for daily reviews that can be referenced by other tables in the supply chain model, enabling consistent scheduling of various review activities like inventory checks, queue processing, and route planning."
+    },
+    {
+        "table_name": "ScenarioRules",
+        "table_description": "The ScenarioRules table contains configurations for organizing and executing different supply chain scenarios. It defines the sequence of scenario items, their relationships, and metadata about scenario execution, allowing for structured analysis of different supply chain configurations and strategies."
+    },
+    {
+        "table_name": "TableFilters",
+        "table_description": "The TableFilters table contains rules for filtering data across various supply chain tables. It defines filtering logic for different types of data views, including map and engine-specific filters, enabling dynamic data selection and grouping across the supply chain model."
+    },
+    {
+        "table_name": "TemplateRoutes",
+        "table_description": "The TemplateRoutes table contains predefined transportation route configurations. It specifies transportation assets, rules for additional shipment insertions, and status information, enabling the creation of standardized routing templates for regular transportation patterns."
+    },
+    {
+        "table_name": "TransportationAssetsMultiTimePeriod",
+        "table_description": "The TransportationAssetsMultiTimePeriod table contains time-specific changes to transportation asset configurations. It defines period-specific modifications to asset availability, capacity, costs, and environmental impact parameters, allowing for temporal variations in transportation resources."
+    },
+    {
+        "table_name": "TransportationBandCosting",
+        "table_description": "The TransportationBandCosting table contains detailed cost structures for transportation based on distance bands and shipment sizes. It defines rate calculations using origin-destination pairs, distance ranges, and shipment characteristics, enabling sophisticated transportation cost modeling."
+    },
+    {
+        "table_name": "TransportationDrivers",
+        "table_description": "The TransportationDrivers table contains information about different classes of drivers available for transportation operations. It defines driver availability, base locations, and allowed vehicle types, enabling the management of driver resources within the transportation network."
+    },
+    {
+        "table_name": "TransportationLaneModeQueueDetails",
+        "table_description": "The TransportationLaneModeQueueDetails table contains queue management rules for specific transportation lanes and modes. It defines review periods, priority logic, and associated costs for managing shipment queues on specific origin-destination-product-mode combinations."
+    },
+    {
+        "table_name": "TransportationLaneQueueDetails",
+        "table_description": "The TransportationLaneQueueDetails table contains queue management rules for transportation lanes independent of mode. It defines review periods, priority logic, and queue costs for managing shipment flows between specific origin-destination-product combinations."
+    },
+    {
+        "table_name": "TransportationRoutePlanners",
+        "table_description": "The TransportationRoutePlanners table contains configurations for automated route planning systems. It defines planning methods, review schedules, and operational parameters for optimizing transportation routes across the supply chain network."
+    },
+    {
+        "table_name": "UserDefinedForecasts",
+        "table_description": "The UserDefinedForecasts table contains configuration settings for custom demand forecasts used in inventory calculations. It defines aggregation strategies and disaggregation levels for forecast data, enabling flexible time-based forecasting approaches for Days of Supply (DOS) calculations."
+    },
+    {
+        "table_name": "UserDefinedForecastsData",
+        "table_description": "The UserDefinedForecastsData table contains the actual forecast quantities and dates for user-defined forecasts. It stores specific forecast values with their associated units of measure, providing the detailed data points referenced by the UserDefinedForecasts configuration."
+    },
+    {
+        "table_name": "WorkCenterQueueDetails",
+        "table_description": "The WorkCenterQueueDetails table contains rules and configurations for managing work center production queues. It defines review periods, queueing priority logic, and associated costs for managing production lots at specific facility work centers."
+    },
+    {
+        "table_name": "WorkResources",
+        "table_description": "The WorkResources table contains information about production resources available at facilities. It defines resource availability, capacities, costs, operating schedules, and calendars, enabling detailed modeling of production capabilities and constraints."
+    },
+    {
+        "table_name": "WorkResourcesMultiTimePeriod",
+        "table_description": "The WorkResourcesMultiTimePeriod table contains time-specific modifications to work resource configurations. It defines period-specific changes to resource availability, capacity, costs, and operational schedules, allowing for temporal variations in production capabilities."
+    },
+    {
+        "table_name": "OptimizationCO2EmissionsSummary",
+        "table_description": "The OptimizationCO2EmissionsSummary table contains aggregated results of CO2 emissions across the supply chain network. It tracks emissions and associated costs from various sources including fixed facilities, transportation, production, and supply activities for each scenario and time period."
+    },
+    {
+        "table_name": "OptimizationCostToServePathSegmentDetails",
+        "table_description": "The OptimizationCostToServePathSegmentDetails table contains detailed cost breakdowns for individual segments within supply chain paths. It tracks comprehensive cost components including transportation, handling, storage, and operational costs for each segment of product movement through the network."
+    },
+    {
+        "table_name": "OptimizationCostToServePathSummary",
+        "table_description": "The OptimizationCostToServePathSummary table contains aggregated cost information for complete supply chain paths. It summarizes total costs, revenues, and various cost components for entire paths from origin to destination, providing high-level cost-to-serve analytics."
+    },
+    {
+        "table_name": "OptimizationDemandOriginSummary",
+        "table_description": "The OptimizationDemandOriginSummary table contains results of demand fulfillment patterns and origin locations. It tracks customer demand quantities, volumes, and weights along with their fulfillment sources and geographic locations for analysis of demand-supply relationships."
+    },
+    {
+        "table_name": "OptimizationGreenfieldValidationErrorReport",
+        "table_description": "The OptimizationGreenfieldValidationErrorReport table contains validation results and error information from optimization runs. It tracks identified issues, their severity, applied corrections, and occurrence frequencies across various model components, enabling quality control of optimization inputs and outputs."
+    },
+    {
+        "table_name": "OptimizationUserDefinedVariableTermSummary",
+        "table_description": "The OptimizationUserDefinedVariableTermSummary table contains results of user-defined variables and their components from optimization runs. It tracks variable terms, their values, and scaled calculations, enabling analysis of custom optimization metrics and parameters."
+    },
+    {
+        "table_name": "SimulationRouteReport",
+        "table_description": "The SimulationRouteReport table contains detailed information about simulated transportation routes. It tracks comprehensive route metrics including costs, distances, times, asset utilization, and delivery quantities, providing complete analysis of route performance and efficiency."
+    },
+    {
+        "table_name": "SimulationRouteSegmentReport",
+        "table_description": "The SimulationRouteSegmentReport table contains detailed information about individual segments within transportation routes. It tracks segment-specific metrics such as distances, times, geographic coordinates, and timing details, enabling granular analysis of route components."
+    },
+    {
+        "table_name": "SimulationRouteStopReport",
+        "table_description": "The SimulationRouteStopReport table contains detailed information about individual stops within transportation routes. It tracks stop-specific metrics including delivery quantities, service times, costs, and timing details, providing comprehensive analysis of route stop activities."
+    },
+    {
+        "table_name": "SimulationTransportationAssetSummary",
+        "table_description": "The SimulationTransportationAssetSummary table contains aggregated performance metrics for transportation assets. It tracks comprehensive usage statistics including costs, distances, times, and delivery volumes, providing high-level analysis of asset utilization and efficiency."
+    },
+    {
+        "table_name": "SimulationTransportationAssetSummaryReplicationDetail",
+        "table_description": "The SimulationTransportationAssetSummaryReplicationDetail table contains detailed performance metrics for transportation assets across simulation replications. It tracks the same comprehensive metrics as the summary table but preserves individual replication results for statistical analysis."
+    },
+    {
+        "table_name": "TransportationActivityReport",
+        "table_description": "The TransportationActivityReport table contains detailed records of all transportation-related activities. It tracks individual activities such as pickups, deliveries, travel, and breaks, including timing, locations, quantities, and associated duty time constraints."
+    },
+    {
+        "table_name": "TransportationLoadBalancingSummary",
+        "table_description": "The TransportationLoadBalancingSummary table contains daily delivery performance metrics organized by source location. It tracks delivery quantities, distances, times, and resource utilization, enabling analysis of load balancing effectiveness across the network."
+    },
+    {
+        "table_name": "TransportationValidationErrorReport",
+        "table_description": "The TransportationValidationErrorReport table contains validation results specific to transportation-related data and configurations. It tracks identified issues, their severity, applied corrections, and occurrence frequencies within the transportation modeling components."
+    }
+]

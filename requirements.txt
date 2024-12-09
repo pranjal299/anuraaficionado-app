@@ -1,0 +1,14 @@
+# Web Framework
+flask
+flask-login
+
+# Database
+supabase
+python-dotenv
+
+# AI and ML
+openai
+sentence-transformers
+faiss-cpu
+rank-bm25
+nltk
