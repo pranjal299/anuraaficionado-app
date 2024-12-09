@@ -111,6 +111,10 @@ class User(UserMixin):
 def load_user(user_id):
     return User.get(user_id)
 
+@app.route('/robots933456.txt')
+def health_check():
+    return ''  # Just return empty response with 200 status code
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
