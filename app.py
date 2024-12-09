@@ -77,10 +77,12 @@ try:
     nltk.data.find('tokenizers/punkt')
     nltk.data.find('tokenizers/averaged_perceptron_tagger')  # For POS tagging if needed
     nltk.data.find('corpora/stopwords')  # For stopwords if needed
+    nltk.data.find('tokenizers/punkt_tab')  # Add this line
 except LookupError:
     nltk.download('punkt')
     nltk.download('averaged_perceptron_tagger')
     nltk.download('stopwords')
+    nltk.download('punkt_tab')  # Add this line
 
 rag_instances = {}
 for config_name, config in CONFIGS.items():
