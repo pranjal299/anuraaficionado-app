@@ -38,30 +38,30 @@ login_manager.login_view = 'login'
 CONFIGS = {
     "hybrid": RAGConfig(
         search_mode=SearchMode.HYBRID,
-        initial_k=10,
-        final_k=3,
+        initial_k=15,
+        final_k=5,
         use_reranking=False,
         bm25_weight=0.3,
         semantic_weight=0.7
     ),
     "hybrid_reranked": RAGConfig(
         search_mode=SearchMode.HYBRID,
-        initial_k=10,
-        final_k=3,
+        initial_k=15,
+        final_k=5,
         use_reranking=True,
         bm25_weight=0.3,
         semantic_weight=0.7
     ),
     "semantic": RAGConfig(
         search_mode=SearchMode.SEMANTIC,
-        initial_k=10,
-        final_k=3,
+        initial_k=15,
+        final_k=5,
         use_reranking=False
     ),
     "semantic_reranked": RAGConfig(
         search_mode=SearchMode.SEMANTIC,
-        initial_k=10,
-        final_k=3,
+        initial_k=15,
+        final_k=5,
         use_reranking=True
     )
 }
@@ -345,6 +345,12 @@ def send_message():
                 query = message
                 
             response, retrieved_docs_with_scores, execution_time = rag.query(query)
+
+            # Sort documents so system info appears at the top of context panel if present
+            sorted_docs_with_scores = sorted(
+            retrieved_docs_with_scores,
+            key=lambda x: x[0].metadata.get('type') != 'system_info'
+            )
             
             # Save bot response
             bot_message_id = str(uuid.uuid4())
@@ -364,10 +370,13 @@ def send_message():
                     .eq('id', conversation_id)\
                     .execute()
             
+            # Create context object with proper document type labels
             context = {
                 "sources": [
                     {
-                        "title": "Table Info" if doc.metadata.get('type') == 'table' else "Column Info",
+                        "title": "System Info" if doc.metadata.get('type') == 'system_info'
+                                else ("Table Info" if doc.metadata.get('type') == 'table'
+                                else "Column Info"),
                         "content": doc.content,
                         "relevance": float(score),
                         "type": doc.metadata.get('type', 'unknown')

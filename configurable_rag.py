@@ -105,7 +105,12 @@ class ConfigurableRAG:
                 }            
 
             print("Creating documents...")
-            self.documents = self._create_documents()
+            schema_docs = self._create_documents()
+            
+            # Add system information
+            from anura_system_info import SystemInformation
+            system_info = SystemInformation()
+            self.documents = schema_docs + system_info.get_docs()
             print(f"Created {len(self.documents)} documents")
             
             print("Building indices...")
@@ -339,22 +344,22 @@ class ConfigurableRAG:
 
     def generate_response(self, query: str, retrieved_docs: List[Document]) -> str:
         """Generate response using GPT-4."""
-        context_parts = [doc.content for doc in retrieved_docs]
-        context = "\n\n---\n\n".join(context_parts)
+        # Sort documents so system info appears first if present
+        sorted_docs = sorted(retrieved_docs, key=lambda x: x.metadata.get('type') != 'system_info')
+        context = "\n\n---\n\n".join(doc.content for doc in sorted_docs)
         
-        prompt = f"""Based on the following Anura database schema information:
+        prompt = f"""As Anura Aficionado, you are a specialized assistant for the Anura schema. Based on the following information:
 
 {context}
 
 Please answer this question: {query}
 
-Provide a clear and concise answer based only on the information provided above. 
-If the information needed to answer the question is not in the context, please say so."""
+If this is a question about Anura Aficionado itself, answer based on the system information provided. If it's about the schema, use the schema information. If the needed information isn't in the context, please say so."""
 
         response = openai.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant that answers questions about the Anura database schema. Only provide information that is supported by the given context."},
+                {"role": "system", "content": "You are Anura Aficionado, a specialized assistant that helps users understand and work with the Anura schema in Optilogic's Cosmic Frog platform."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.3,
