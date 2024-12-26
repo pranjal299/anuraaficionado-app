@@ -62,8 +62,7 @@ def preprocess_text(text: str) -> str:
 class ConfigurableRAG:
     def __init__(
         self, 
-        schema_file: str, 
-        table_descriptions_file: str,
+        schema_file: str,
         openai_api_key: str, 
         config: RAGConfig,
         index_dir: str = "index"
@@ -91,19 +90,10 @@ class ConfigurableRAG:
             print("Loading existing indices and documents...")
             self._load_indices_and_documents()
         else:
-            print(f"Loading schema from {schema_file}...")
+            print(f"Loading unified schema from {schema_file}...")
             with open(schema_file, 'r') as f:
                 self.schema = json.load(f)
             
-            print(f"Loading table descriptions from {table_descriptions_file}...")
-            with open(table_descriptions_file, 'r') as f:
-                table_descriptions_list = json.load(f)
-                # Convert list to dictionary for easier lookup
-                self.table_descriptions = {
-                    item['table_name']: item['table_description']
-                    for item in table_descriptions_list
-                }            
-
             print("Creating documents...")
             schema_docs = self._create_documents()
             
@@ -170,12 +160,12 @@ class ConfigurableRAG:
             pickle.dump(self.documents, f)
 
     def _create_documents(self) -> List[Document]:
-        """Create document chunks from schema with comprehensive field information."""
+        """Create document chunks from unified schema with comprehensive field information."""
         documents = []
         
-        for table_name, fields in self.schema.items():
+        for table_name, table_info in self.schema.items():
             # Create field documents with enhanced content
-            for field in fields:
+            for field in table_info["columns"]:
                 # Add field-specific content
                 field_content = [
                     f"Table: {table_name}",
@@ -203,30 +193,31 @@ class ConfigurableRAG:
                         "table": table_name,
                         "field": field["Column Name"],
                         "type": "field",
+                        "table_type": table_info["type"],  # Add the table type (Input/Output)
                         **{k: v for k, v in field.items() if v is not None and str(v) != "NaN"}
                     }
                 )
                 documents.append(field_doc)
             
             # Create enhanced table overview document
-            # Table-level document creation
-            table_fields = [field["Column Name"] for field in fields]  # Just get field names
+            table_fields = [field["Column Name"] for field in table_info["columns"]]
 
             # Get required fields
-            required_fields = [field["Column Name"] for field in fields 
-                              if field.get("Required") == "Yes"]
+            required_fields = [field["Column Name"] for field in table_info["columns"] 
+                             if field.get("Required") == "Yes"]
 
             # Get primary key fields
-            primary_key_fields = [field["Column Name"] for field in fields 
-                                 if field.get("PK") == "Yes"]
+            primary_key_fields = [field["Column Name"] for field in table_info["columns"] 
+                                if field.get("Primary Key") == "Yes"]  # Note: using "Primary Key" instead of "PK"
             
             table_content = [
                 f"Table: {table_name}",
-                f"Description: {self.table_descriptions.get(table_name, 'No description available.')}",
+                f"Type: {table_info['type']}",  # Add table type (Input/Output)
+                f"Description: {table_info['description']}",
                 f"This table contains the following fields: {', '.join(table_fields)}",
                 f"Primary key fields are: {', '.join(primary_key_fields) if primary_key_fields else 'None'}",
                 f"Required fields are: {', '.join(required_fields) if required_fields else 'None'}",
-                f"Total number of fields: {len(fields)}"
+                f"Total number of fields: {len(table_info['columns'])}"
             ]
 
             table_doc = Document(
@@ -234,8 +225,9 @@ class ConfigurableRAG:
                 metadata={
                     "table": table_name,
                     "type": "table",
-                    "description": self.table_descriptions.get(table_name),
-                    "fields": [f[0] for f in table_fields],
+                    "table_type": table_info["type"],  # Add the table type (Input/Output)
+                    "description": table_info["description"],
+                    "fields": table_fields,
                     "primary_key_fields": primary_key_fields,
                     "required_fields": required_fields
                 }

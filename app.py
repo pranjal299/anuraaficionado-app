@@ -68,7 +68,6 @@ CONFIGS = {
 
 # Initialize RAG instances
 SCHEMA_FILE = "anura_schema.json"
-TABLE_DESC_FILE = "table_description.json"
 INDEX_DIR = "index"
 API_KEY = os.getenv('OPENAI_API_KEY')
 
@@ -87,10 +86,9 @@ except LookupError:
 rag_instances = {}
 for config_name, config in CONFIGS.items():
     rag_instances[config_name] = ConfigurableRAG(
-        SCHEMA_FILE, 
-        TABLE_DESC_FILE, 
-        API_KEY, 
-        config, 
+        SCHEMA_FILE,
+        API_KEY,
+        config,
         INDEX_DIR
     )
 
